@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.machinelearning;
+package com.weblogics;
 import com.accessObjects.*;
 import java.util.ArrayList;
 /**
  *
  * @author Abhishek Abhinav
  */
-
-public interface ClusterINTF {
-    ArrayList<ArrayList<Devicevector>> getCluster(ArrayList<Devicevector> devices, Devicevector deviceNode);
-    ArrayList<Devicevector> getNodesForCluster(ArrayList<Devicevector> devices);
+public interface DBCommentsINTF {
+    ArrayList<Comment> getCommentsForDevice(String deviceID);
+    boolean addComment(Comment comment);
+    boolean updateComment(Comment comment);
+    boolean deleteComment(Comment comment);
 }

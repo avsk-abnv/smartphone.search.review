@@ -1,0 +1,224 @@
+#middle {
+    position: relative;
+    background: hsla(0,0%,100%,.3);
+}
+
+#navbar-container {
+    align-content: center;
+    position: sticky;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 3rem;
+    z-index: 10;
+}
+
+#navbar {
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #0087a6;
+    width: 100%;
+    height: 3rem;
+}
+.logo{
+    height: 100%;
+    width: 22%;
+    border: 1px solid transparent;
+    text-align: center;
+    color: white;
+    padding: 10px 0px;
+}
+.search-box{
+    height: 100%;
+    width: 50%;
+    border: 1px solid transparent;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 5px 20px;
+}
+.login{
+    width: 15%;
+    height: 100%;
+    border: 1px solid transparent;
+    color: white;
+    text-align: center;
+    padding: 10px 0px;
+}
+.search-input{
+    width: 85%;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.23);
+    border: none;
+    padding-left: 10px;
+    border-radius: 3px;
+}
+.search-input:focus{
+    border: none;
+    box-shadow: 0 3px 6px 0 rgba(0,0,0,.23);
+}
+.search-icon{
+    width: 10%;
+    background-color: white;
+    border-left: 2px solid #e0e0e0;
+    border-right: none;
+    border-bottom: none;
+    border-top: none;
+    border-radius: 3px;
+}
+#row-fmain {
+    margin: auto;
+    position: relative;
+    width: 100%;
+    background: rgb(220,240,255);
+}
+#main-col {
+    background-color: white;
+    margin-top: 0px;
+    width: 78%;
+    position: relative;
+}
+
+#main-body {
+    width: 100%;
+    position: relative;
+}
+
+#tabs {
+    width: 100%;
+    border: 2px solid #0087a6;
+    height: 2rem;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.each-tab{
+    text-align: center;
+    width: 33%;
+    color: white;
+    background-color: #0087a6;
+}
+#filter-container {
+    margin-top: 10px;
+    padding-right: 10px;
+    width: 22%;
+    min-height: 30rem;
+    position: relative;
+    background: rgb(220,240,255);
+}
+
+#filters {
+    padding-right: 10px;
+    width: 100%;
+    background: white;
+    min-height: 600px;
+    box-shadow: 0 3px 16px 0 rgba(0,0,0,.11)
+}
+.filter-title{
+    border-bottom: 1px solid rgb(220,240,255);
+    width: 100%;
+    height: 30px;
+}
+
+.grid-row {
+    height: 350px;
+    margin-left: 0px;
+    margin-right: 0px;
+    border: 1px solid transparent;
+    position: relative;
+}
+
+.grid-cols {
+    width: 25%;
+    height: 100%;
+    border: 1px solid transparent;
+    position: relative;
+}
+.grid-cols:hover {
+    width: 25%;
+    height: 100%;
+    border: 1px solid transparent;
+    position: relative;
+    box-shadow: 0 3px 16px 0 rgba(0,0,0,.11)
+}
+.thumbnails{
+    height: 65%;
+    margin-left: 18%;
+    max-width: 65%;
+}
+.img-container{
+    width: 100%;
+    position: relative;
+    margin-top: 10px;
+}
+.title{
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1rem;
+}
+.price{
+    text-align: center;
+    font-weight: normal;
+}
+.like-dislike{
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-left: 20%;
+}
+.like-container{
+    width: 50%;
+}
+.like-icon{
+
+}
+.like-count{
+    font-size: 0.9rem;
+    color:slategrey;
+}
+.dislike-container{
+    width: 50%;
+}
+.dislike-icon{
+
+}
+.dislike-count{
+    font-size: 0.9rem;
+    color:slategrey;
+}
+.page-row{
+    width: 100%;
+    height: 2.5rem;
+    position: relative;
+    margin-bottom: 10px;
+}
+.page-no{
+    width: 4%;
+    height: 2.5rem;
+    border: 1px solid transparent;
+    padding: 8px 14px;
+    box-shadow: 3px 3px 6px rgba(0,0,0,.35);
+}
+.next-page{
+    width: 10%;
+    border:1px solid transparent;
+    height: 2.5rem;
+    text-align: center;
+    color: #0087a6;
+    padding: 8px 0px;
+    font-weight: bolder;
+    box-shadow: 0 3px 6px 0 rgba(0,0,0,.35);
+}
+.left-spacing{
+    width: 25%;
+}
+.right-spacing{
+    width: 25%;
+}
+#footer {
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    background-color: #3d3d3d;
+    height: 7rem;
+}
+h6{
+    font-size: 0.9rem;
+}
