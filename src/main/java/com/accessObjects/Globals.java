@@ -16,7 +16,7 @@ import java.util.concurrent.CountDownLatch;
  */
 public class Globals {
     public static CountDownLatch cLatch;
-    public static ArrayList<String> vectorIndex = new ArrayList<String>(Arrays.asList("brandvalue","android","blackberry","windows",
+    public static ArrayList<String> vectorIndex = new ArrayList<String>(Arrays.asList("brandname","brandvalue","android","blackberry","windows",
         "symbian","other","external","minisd","microsd","internal","ram","4g","battery",
         "selfiecamera","maincamera"));
     public static String encode4Firebase(String str){

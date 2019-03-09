@@ -9,10 +9,10 @@ package com.weblogics;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.io.InputStream;
+import java.net.URL;
 /**
  * 
  * @author Abhishek Abhinav
@@ -20,8 +20,9 @@ import java.io.IOException;
 public class FirebaseConnect {
     public static void getConnection() throws FileNotFoundException, IOException {
         //----------------Firebase Connection-------------------//
-        FileInputStream serviceAccount
-                = new FileInputStream("serviceAccountKey.json");
+        URL url = new URL("https://device-pics.firebaseapp.com/$confidential$/serviceAccountKey.json");
+        InputStream serviceAccount
+                = url.openStream();
 
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
@@ -29,6 +30,7 @@ public class FirebaseConnect {
                 .build();
 
         FirebaseApp.initializeApp(options);
+        
         //-----------------------------------------------------//
     }
 }

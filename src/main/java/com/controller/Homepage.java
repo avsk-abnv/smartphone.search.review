@@ -5,7 +5,16 @@
  */
 package com.controller;
 
+import com.accessObjects.Device;
+import com.google.gson.Gson;
+import com.weblogics.DBDevice;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,8 +39,33 @@ public class Homepage extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        DBDevice dbdevice = new DBDevice();
+        //ArrayList<String> deviceIDs = dbdevice.filterByOS("android", 16);
+        //request.setAttribute("deviceIDs", deviceIDs);
+        File file = new File("L:\\4th Year Project\\ongoing\\devices\\acer.json");
+        Map<String, Map<String, Map<String, String>>> jsonData = new HashMap<>();
+        BufferedReader jsonReader = new BufferedReader(new FileReader(file));
+        jsonData = (new Gson()).fromJson(jsonReader, jsonData.getClass());
+        ArrayList<ArrayList<Device>> devices = new ArrayList<>();
+        ArrayList<Device> devRow = new ArrayList<>();
+        int count =0;
+        for (String model : jsonData.keySet()) {
+            Device device = new Device();
+            device.info = jsonData.get(model);
+            device.brand = "acer";
+            device.model = model;
+            devRow.add(device);
+            if (devRow.size() == 4) {
+                devices.add(devRow);
+                devRow = new ArrayList<>();
+            }
+            count++;
+            if(count==16)
+                break;
+        }
+        request.setAttribute("devices", devices);
         RequestDispatcher rd = request.getRequestDispatcher("Homepage.jsp");
-        rd.forward(request,response);
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

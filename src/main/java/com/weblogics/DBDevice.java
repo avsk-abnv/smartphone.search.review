@@ -13,12 +13,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import static com.accessObjects.Globals.*;
+import com.google.firebase.FirebaseApp;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -34,7 +39,12 @@ public class DBDevice implements DBDeviceINTF {
     static Object deviceInfo = new HashMap<>();
 
     public DBDevice() throws IOException {
-        FirebaseConnect.getConnection();
+        try {
+            FirebaseApp.getInstance();
+        } catch (IllegalStateException e) {
+            //Firebase not initialized automatically, do it manually
+            FirebaseConnect.getConnection();
+        }
     }
 
     @Override
@@ -88,29 +98,40 @@ public class DBDevice implements DBDeviceINTF {
 
     @Override
     public ArrayList<String> filterByOS(String OS, int maxcount) {
-        BufferedReader jsonReader = null;
+        JsonReader jsonReader = null;
         ArrayList<String> deviceIDs = new ArrayList<>();
         boolean exception = false;
         try {
-            File vecFile = new File("devicevector.json");
-            jsonReader = new BufferedReader(new FileReader(vecFile));
-            Map<String, Map<String, ArrayList<String>>> vector = new HashMap<>();
-            vector = (new Gson()).fromJson(jsonReader, vector.getClass());
-            for (String brand : vector.keySet()) {
-                for (String model : vector.get(brand).keySet()) {
-                    if (vector.get(brand).get(model).get(vectorIndex.indexOf(OS.toLowerCase())).equals("100")) {
-                        String deviceID = brand + "%" + encode4Firebase(model);
-                        deviceIDs.add(deviceID);
-                        if (deviceIDs.size() >= maxcount) {
-                            break;
-                        }
+            URL url = new URL("https://device-pics.firebaseapp.com/devicevector.json");
+            jsonReader = new JsonReader(new InputStreamReader(url.openStream()));
+            Map<String, ArrayList<String>> vector = new HashMap<>();
+            jsonReader.beginObject();
+            Gson gson = new GsonBuilder().create();
+            while (jsonReader.hasNext()) {
+                String model = jsonReader.nextName();
+                ArrayList<String> devarr = gson.fromJson(jsonReader.nextString(), ArrayList.class);
+                String brand = devarr.get(0);
+                if (devarr.get(vectorIndex.indexOf("android")).equals("100")) {
+                    String deviceID = brand + "%" + encode4Firebase(model);
+                    deviceIDs.add(deviceID);
+                    if (deviceIDs.size() >= 16) {
+                        break;
                     }
                 }
-                if (deviceIDs.size() >= maxcount) {
+
+                if (deviceIDs.size() >= 16) {
                     break;
                 }
+                //jsonReader.endObject();
             }
-        } catch (FileNotFoundException ex) {
+            if (!jsonReader.hasNext()) {
+                jsonReader.endObject();
+            }
+
+            jsonReader.close();
+        } catch (MalformedURLException ex) {
+            exception = true;
+        } catch (IOException ex) {
             exception = true;
         } finally {
             try {
