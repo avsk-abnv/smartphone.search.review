@@ -24,6 +24,8 @@
         <style>
             <%@ include file="./css/style.css" %>
         </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
     </head>
     <body style="margin:0px;">
         <div id="middle">
@@ -38,23 +40,61 @@
                     <div class="about">About</div>
                     <div class="contact">Contact us</div>
                 </div>
+                <div id="compare" class="row">
+                    <div id="compare-spacing" class="row" style="height:40px;width:22%;background:transparent;margin:0px;"></div>
+                    <div id="compare-container" class="row">
+                        <div class="compare-click" align="center">Click to Compare :</div>
+                        <div class="compare-a">
+                            <div align="center" class="model-container"></div>
+                        </div>
+                        <span id="versus">Vs</span>
+                        <div class="compare-b">
+                            <div align="center" class="model-container"></div>
+                        </div>
+                        <div id="apply-cancel" align="center">Apply</div>
+                    </div>
+                </div>
             </div>
             <div id="row-fmain" class="row">
                 <div id="filter-container">
+                    <div class="filters column">yoyo</div>
                     <div id="filters" class="column">
-                        <div class="filter-title">Filters</div>
-                        
+                        <div class="filter-title">
+                            <i class="fa fa-filter" aria-hidden="true"></i>
+                            <span style="margin-left:10px;">Filters</span>
+                        </div>
+                        <div class="filter-brand filter-all">
+
+                            <div class="brand-select-div row">
+                                <span id="brand-text">Brands : </span>
+                                <div id="select-brand" align="center" onmouseover="this.children[0].setAttribute('class', 'fa fa-chevron-down')" onmouseout="this.children[0].setAttribute('class', 'fa fa-chevron-right')">
+                                    Select Brands <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="all-brand-names"></div>
+                        <div class="filter-os filter-all"></div>
+                        <div class="filter-external filter-all"></div>
+                        <div class="filter-internal filter-all"></div>
+                        <div class="filter-ram filter-all"></div>
+                        <div class="filter-battery filter-all"></div>
+                        <div class="filter-camera filter-all"s></div>
                     </div>
                 </div>
                 <div id="main-col" class="column">
                     <div id="main-body" class="column">
+                        <div class="sortings row">
+                            <div class="sort-by" align="center">Sort By :</div>
+                            <div class="popularity" align="center">Popularity</div>
+                            <div class="recommendation" align="center">Recommendation</div>
+                        </div>
                         <%
                             //ArrayList<String> deviceIDs = (ArrayList)request.getAttribute("deviceIDs");
-                            ArrayList<ArrayList<Device>> devices = (ArrayList)request.getAttribute("devices");
-                            for (ArrayList<Device> deviceRow: devices) {
+                            ArrayList<ArrayList<Device>> devices = (ArrayList) request.getAttribute("devices");
+                            for (ArrayList<Device> deviceRow : devices) {
                         %>
                         <div class="grid-row row">
-                            <%for (Device device: deviceRow) {%>
+                            <%for (Device device : deviceRow) {%>
                             <div class="grid-cols column">
                                 <div class="img-container" align="center">
                                     <img class="thumbnails" src="<%=Globals.decodeNormal(device.info.get("imageURL").get("main"))%>" alt="no image found" onerror="this.src = 'https://device-pics.firebaseapp.com/noimage.png';"/>
@@ -87,4 +127,7 @@
             <div id="footer"></div>
         </div>
     </body>
+    <script>
+        <%@ include file="./js/script.js" %>
+    </script>
 </html>
