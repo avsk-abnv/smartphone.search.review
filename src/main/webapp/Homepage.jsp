@@ -23,56 +23,44 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <style>
             <%@ include file="./css/style.css" %>
+            <%@ include file="./css/checkbox.css" %>
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+            <%@ include file="./js/script-init.js" %>
+        </script>
 
     </head>
     <body style="margin:0px;">
+        <div class="mask"></div>
         <div id="middle">
-            <div id="navbar-container">
-                <div id="navbar" class="row">
-                    <div class="logo"><div id="logo-design">Smartphone Search & Review</div></div>
-                    <div class="search-box row">
-                        <input type="text" placeholder="Search devices" class="search-input" />
-                        <div class="search-icon"><i style="color:black" class="fa fa-search fa-lg"></i></div>
-                    </div>
-                    <div class="login">Login or Sign up</div>
-                    <div class="about">About</div>
-                    <div class="contact">Contact us</div>
-                </div>
-                <div id="compare" class="row">
-                    <div id="compare-spacing" class="row" style="height:40px;width:22%;background:transparent;margin:0px;"></div>
-                    <div id="compare-container" class="row">
-                        <div class="compare-click" align="center">Click to Compare :</div>
-                        <div class="compare-a">
-                            <div align="center" class="model-container"></div>
-                        </div>
-                        <span id="versus">Vs</span>
-                        <div class="compare-b">
-                            <div align="center" class="model-container"></div>
-                        </div>
-                        <div id="apply-cancel" align="center">Apply</div>
-                    </div>
-                </div>
-            </div>
+            <%@ include file="./navbar.src" %>
             <div id="row-fmain" class="row">
                 <div id="filter-container">
                     <div class="filters column">yoyo</div>
-                    <div id="filters" class="column">
+                    <div id="filters">
                         <div class="filter-title">
                             <i class="fa fa-filter" aria-hidden="true"></i>
                             <span style="margin-left:10px;">Filters</span>
                         </div>
                         <div class="filter-brand filter-all">
+                            <span id="brand-text">Brands </span>
+                            <ul class="brand-ul">
+                                <%for (int i = 0; i < 4; i++) {
+                                    String capitalized = Globals.brands.get(i).substring(0,1).toUpperCase()+Globals.brands.get(i).substring(1);
+                                %>
 
-                            <div class="brand-select-div row">
-                                <span id="brand-text">Brands : </span>
-                                <div id="select-brand" align="center" onmouseover="this.children[0].setAttribute('class', 'fa fa-chevron-down')" onmouseout="this.children[0].setAttribute('class', 'fa fa-chevron-right')">
-                                    Select Brands <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                                </div>
-                            </div>
+                                <li>
+                                    <label class="container"><%=capitalized%><input type="checkbox">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </li>
+
+                                <%}%>
+                                <li id="showmore" onclick="showbrands();">Show more ...</li>
+                            </ul>
                         </div>
-                        <div class="all-brand-names"></div>
+                        <%@ include file="./allbrands.src" %>
                         <div class="filter-os filter-all"></div>
                         <div class="filter-external filter-all"></div>
                         <div class="filter-internal filter-all"></div>
@@ -130,4 +118,5 @@
     <script>
         <%@ include file="./js/script.js" %>
     </script>
+    <noscript>Your browser does not support JavaScript</noscript>
 </html>

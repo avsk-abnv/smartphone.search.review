@@ -2,7 +2,16 @@
     position: relative;
     background: hsla(0,0%,100%,.3);
 }
-
+.mask{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 8;
+    height: 140px;
+    width: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+}
 #navbar-container {
     align-content: center;
     position: sticky;
@@ -46,7 +55,7 @@
 
 .compare-a{
     width: 30%;
-    padding: 2px 1.75%;
+    padding: 5px 1.75%;
     height: 40px;
 }
 #versus{
@@ -55,26 +64,28 @@
 }
 .compare-b{
     width: 30%;
-    padding: 2px 1.75%;
+    padding: 5px 1.75%;
     height: 40px;
 }
 #apply-cancel{
-    width: 11%;
-    height: 35px;
-    background-color: orange;
-    margin: 2px 0.5%;
-    padding-top: 4px;
+    width: 12%;
+    height: 100%;
+    background-color: white;
+    /* margin: 2px 0.5%; */
+    padding-top: 6px;
     padding-bottom: 5px;
-    border-radius: 5px;
-    color:white;
+    /* border-radius: 5px; */
+    border-left: 1px solid #f1f3f6;
+    color: black;
     cursor: pointer;
 }
 #apply-cancel:hover{
-    background-color: #b57500;
+    background-color: #f1f3f6;
 }
 .model-container{
     width: 100%;
-    height: 35px;
+    height: 30px;
+    border-radius: 5px;
     box-shadow: inset 1px 1px 2px 2px #ccc;
 }
 .logo{
@@ -223,6 +234,7 @@
     min-height: 600px;
     box-shadow: 0 3px 16px 0 rgba(0,0,0,.11);
     overflow-y: scroll;
+    z-index: 2;
 }
 .filters {
     position: fixed;
@@ -245,6 +257,7 @@
     min-height: 100px;
     width: 100%;
     border-bottom: 1px solid #f1f3f6;
+    padding-bottom: 10px;
 }
 .filter-brand{
     
@@ -256,7 +269,8 @@
 #brand-text{
     display: block;
     height: 35px;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 500;
     padding-top: 6px;
     margin-left: 40px;
 }
@@ -272,17 +286,7 @@
 #select-brand:hover{
     background-color: #f1f3f6;
 }
-.all-brand-names{
-    height: 500px;
-    width: 500px;
-    position: fixed;
-    top: 140px;
-    left: 0px;
-    background-color: white;
-    display: none;
-    box-shadow: 0 3px 16px 0 rgba(0,0,0,.11);
-    z-index: 10;
-}
+
 .grid-row {
     height: 350px;
     margin-left: 0px;
@@ -386,4 +390,56 @@
 }
 h6{
     font-size: 0.9rem;
+}
+.brand-ul li{
+    list-style-type: none;
+    margin-top: 10px;
+}
+.brand-ul li#showmore{
+    font-size: 14px;
+    color: blue;
+    cursor: pointer;
+}
+.cross-button{
+    width: 20px;
+    position: absolute;
+    right: 0;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: red;
+}
+.cross-button:hover{
+    background-color: maroon;
+}
+.brand-wrapper{
+    height:100%;
+    margin: 0px;
+    width: 100%;
+}
+.brand-list{
+    width: 100%;
+}
+.brand-list li{
+    list-style-type: none;
+    margin-top: 5px;
+}
+#all-brand-names{
+    height: 600px;
+    width: 100%;
+    position: fixed;
+    top: 140px;
+    left: 0px;
+    background-color: white;
+    box-shadow: 0 3px 16px 0 rgba(0,0,0,.11);
+    z-index: 20;
+    display:none;
+}
+.three-container{
+    height: 100%;
+    width: 15%;
+    margin: 0px;
+}
+.three-container:nth-of-type(odd){
+    background-color: #f5f9ff;
 }

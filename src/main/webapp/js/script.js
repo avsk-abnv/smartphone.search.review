@@ -18,12 +18,10 @@ $(function () {
                 added = false;
             }
         }
-        console.log($("#filters").offset().top);
     });
 });
 
 $(document).ready(function () {
-    console.log("Loaded");
     $("html, body").animate({scrollTop: 0}, "slow");
     $("#filters").css("max-height", $(window).height() - $("#filters").offset().top + "px");
     $(".filters").css("max-height", $(window).height() - $("#filters").offset().top + "px");
