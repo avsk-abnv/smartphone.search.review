@@ -6,7 +6,7 @@
 package com.controller;
 
 import static com.accessObjects.Globals.encode4Firebase;
-import static com.accessObjects.Globals.vectorIndex;
+import static com.accessObjects.Globals.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
@@ -24,7 +24,10 @@ import java.util.Map;
  */
 public class Test {
 
-    public static void main(String... args) throws IOException {
+    /*public static void main(String... args) throws IOException {
+        for(String memKey : extMemory_mapping.keySet()){
+            System.out.println(memKey+" :"+ (new Gson()).toJson(extMemory_mapping.get(memKey)));
+        }
         //DBDevice db = new DBDevice();
         /*Device device = db.getByDeviceID("alcatel%alcatel Pop 2 (4)");
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -34,30 +37,31 @@ public class Test {
             System.out.println(devID);
         }*/
         //DBDevice dbdevice = new DBDevice();
-        URL url = new URL("https://device-pics.firebaseapp.com/devicevector.json");
-        //JsonReader jsonReader = new JsonReader(new InputStreamReader(url.openStream()));
-        //JsonReader jsonReader = new JsonReader(new FileReader("L:\\4th Year Project\\ongoing\\devicevector_new.json"));
-        //Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
+        /*URL url = new URL("https://device-pics.firebaseapp.com/devicevector.json");
         JsonReader jsonReader = new JsonReader(new InputStreamReader(url.openStream()));
         Map<String, ArrayList<String>> vector = new HashMap<>();
         jsonReader.beginObject();
         ArrayList<String> deviceIDs = new ArrayList<>();
         Gson gson = new GsonBuilder().create();
+        int count = 0;
         while (jsonReader.hasNext()) {
+            count++;
             String model = jsonReader.nextName();
             ArrayList<String> devarr = gson.fromJson(jsonReader.nextString(), ArrayList.class);
             String brand = devarr.get(0);
+            
+            System.out.println(model);
+            System.out.println("Count: "+count);
             if (devarr.get(vectorIndex.indexOf("android")).equals("100")) {
                 String deviceID = brand + "%" + encode4Firebase(model);
                 deviceIDs.add(deviceID);
                 System.out.println("added");
-                if (deviceIDs.size() >= 16) {
+                if (deviceIDs.size() >= 1000) {
                     break;
                 }
             }
 
-            if (deviceIDs.size() >= 16) {
+            if (deviceIDs.size() >= 1000) {
                 break;
             }
             //jsonReader.endObject();
@@ -66,9 +70,9 @@ public class Test {
             jsonReader.endObject();
 
         jsonReader.close();
-        for (String deviceID : deviceIDs) {
+        /*for (String deviceID : deviceIDs) {
             System.out.println(deviceID);
-        }
+        }*/
         /*BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
         String line ="";
         while(line!=null){
@@ -116,5 +120,5 @@ public class Test {
             }
             System.out.println("-----------");
         }*/
-    }
+    //}
 }

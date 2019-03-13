@@ -24,50 +24,25 @@
         <style>
             <%@ include file="./css/style.css" %>
             <%@ include file="./css/checkbox.css" %>
+            <%@ include file="./css/checkbox-body.css" %>
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
             <%@ include file="./js/script-init.js" %>
+            <%@ include file="./js/script-filters.js" %>
         </script>
 
     </head>
     <body style="margin:0px;">
         <div class="mask"></div>
         <div id="middle">
-            <%@ include file="./navbar.src" %>
+            <div id="mask-navbar"></div>
+            <div id="navbar-container"></div>
             <div id="row-fmain" class="row">
+                <div id="mask-filter"></div>
                 <div id="filter-container">
                     <div class="filters column">yoyo</div>
-                    <div id="filters">
-                        <div class="filter-title">
-                            <i class="fa fa-filter" aria-hidden="true"></i>
-                            <span style="margin-left:10px;">Filters</span>
-                        </div>
-                        <div class="filter-brand filter-all">
-                            <span id="brand-text">Brands </span>
-                            <ul class="brand-ul">
-                                <%for (int i = 0; i < 4; i++) {
-                                    String capitalized = Globals.brands.get(i).substring(0,1).toUpperCase()+Globals.brands.get(i).substring(1);
-                                %>
-
-                                <li>
-                                    <label class="container"><%=capitalized%><input type="checkbox">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                </li>
-
-                                <%}%>
-                                <li id="showmore" onclick="showbrands();">Show more ...</li>
-                            </ul>
-                        </div>
-                        <%@ include file="./allbrands.src" %>
-                        <div class="filter-os filter-all"></div>
-                        <div class="filter-external filter-all"></div>
-                        <div class="filter-internal filter-all"></div>
-                        <div class="filter-ram filter-all"></div>
-                        <div class="filter-battery filter-all"></div>
-                        <div class="filter-camera filter-all"s></div>
-                    </div>
+                    <div id="filters"></div>
                 </div>
                 <div id="main-col" class="column">
                     <div id="main-body" class="column">
@@ -84,30 +59,24 @@
                         <div class="grid-row row">
                             <%for (Device device : deviceRow) {%>
                             <div class="grid-cols column">
-                                <div class="img-container" align="center">
+                                <div class="img-container" onclick="showdetails(this.parentElement);" align="center">
                                     <img class="thumbnails" src="<%=Globals.decodeNormal(device.info.get("imageURL").get("main"))%>" alt="no image found" onerror="this.src = 'https://device-pics.firebaseapp.com/noimage.png';"/>
                                 </div>
-                                <h6 class="title"><%=device.model%></h6>
+                                <label class="container-body">
+                                    <input onclick="select_me(this.parentElement.parentElement);" type="checkbox">
+                                    <span class="checkmark-body"></span>
+                                </label>
+                                <h6 class="title" onclick="showdetails(this.parentElement);"><%=device.model%></h6>
                             </div>
                             <%}%>
                         </div>
                         <%
                             }
                         %>
+                        <div id="mask-pageno"></div>
                         <div class="page-row row">
-                            <div class="left-spacing"></div>
-                            <div class="page-no" style="color: white;background-color: #0087a6;">1</div>
-                            <div class="page-no">2</div>
-                            <div class="page-no">3</div>
-                            <div class="page-no">4</div>
-                            <div class="page-no">5</div>
-                            <div class="page-no">6</div>
-                            <div class="page-no">7</div>
-                            <div class="page-no">8</div>
-                            <div class="page-no">9</div>
-                            <div class="page-no">10</div>
-                            <div class="next-page">NEXT</div>
-                            <div class="right-spacing"></div>
+                            <div class="prev-page"><i class="fa fa-chevron-left" aria-hidden="true"></i> Previous</div>
+                            <div class="next-page">Next <i class="fa fa-chevron-right" aria-hidden="true"></i></div>
                         </div>
                     </div>
                 </div>

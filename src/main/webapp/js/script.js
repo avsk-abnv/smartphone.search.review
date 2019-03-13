@@ -25,5 +25,7 @@ $(document).ready(function () {
     $("html, body").animate({scrollTop: 0}, "slow");
     $("#filters").css("max-height", $(window).height() - $("#filters").offset().top + "px");
     $(".filters").css("max-height", $(window).height() - $("#filters").offset().top + "px");
+    $("#filters").load("./Filters.jsp");
+    $("#navbar-container").load("./navbar.jsp");
 });
 

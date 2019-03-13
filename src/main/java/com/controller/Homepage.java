@@ -6,12 +6,19 @@
 package com.controller;
 
 import com.accessObjects.Device;
+import static com.accessObjects.Globals.*;
+import static com.accessObjects.Globals.encode4Firebase;
+import static com.accessObjects.Globals.vectorIndex;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 import com.weblogics.DBDevice;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +55,7 @@ public class Homepage extends HttpServlet {
         jsonData = (new Gson()).fromJson(jsonReader, jsonData.getClass());
         ArrayList<ArrayList<Device>> devices = new ArrayList<>();
         ArrayList<Device> devRow = new ArrayList<>();
-        int count =0;
+        int count = 0;
         for (String model : jsonData.keySet()) {
             Device device = new Device();
             device.info = jsonData.get(model);
@@ -60,8 +67,9 @@ public class Homepage extends HttpServlet {
                 devRow = new ArrayList<>();
             }
             count++;
-            if(count==16)
+            if (count == 16) {
                 break;
+            }
         }
         request.setAttribute("devices", devices);
         RequestDispatcher rd = request.getRequestDispatcher("Homepage.jsp");

@@ -58,7 +58,7 @@ public class DBDevice implements DBDeviceINTF {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot ds) {
-                System.out.println(ds);
+                //System.out.println(ds);
                 deviceInfo = ds.getValue(Object.class);
                 cLatch.countDown();
             }
