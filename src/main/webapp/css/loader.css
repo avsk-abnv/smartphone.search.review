@@ -1,0 +1,47 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16 Mar, 2019, 11:32:16 PM
+    Author     : Abhishek Abhinav
+*/
+.loader-mask{
+    position: absolute;
+    top: 98px;
+    left: 22%;
+    width: 78%;
+    height: 1490px;
+    z-index: 2;
+    background: rgba(0,0,0,0.75);
+    padding-top: 250px;
+    display: none;
+}
+.loading{
+    color: white;
+}
+.lds-dual-ring {
+    display: inline-block;
+    width: 74px;
+    height: 74px;
+}
+.lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 66px;
+    height: 66px;
+    margin: 1px;
+    border-radius: 50%;
+    border: 5px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: lds-dual-ring 1.1s linear infinite;
+}
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

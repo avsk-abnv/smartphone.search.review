@@ -111,7 +111,7 @@ public class DBDevice implements DBDeviceINTF {
                 String model = jsonReader.nextName();
                 ArrayList<String> devarr = gson.fromJson(jsonReader.nextString(), ArrayList.class);
                 String brand = devarr.get(0);
-                if (devarr.get(vectorIndex.indexOf("android")).equals("100")) {
+                if (devarr.get(VECTOR_INDEX.indexOf("android")).equals("100")) {
                     String deviceID = brand + "%" + encode4Firebase(model);
                     deviceIDs.add(deviceID);
                     if (deviceIDs.size() >= 16) {

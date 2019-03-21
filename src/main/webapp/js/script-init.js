@@ -19,6 +19,11 @@ function compareclick(){
         $('.grid-cols .title').attr("onclick","");
         $('.grid-cols .img-container').attr("onclick","");
         $('.container-body').css("display","block");
+        for(let i=0; i<$('.img-container').length; i++){
+            if($('.img-container').eq(i).css("display")==="none"){
+                $('.container-body').eq(i).css("display","none");
+            }
+        }
         $('.title').css("cursor","auto");
         $('.img-container').css("cursor","auto");
         
@@ -59,7 +64,24 @@ function select_me(event){
     }
 }
 function showdetails(event){
-    console.log(event);
-    console.log(event.lastElementChild.textContent);
+    var brand = event.getAttribute("data-brand");
+    var model = event.lastElementChild.textContent;
+    console.log(brand+":"+model);
+    var url = window.location.href;
+    model = model.toString().replace("&","_and_");
+    url = url.slice(0,url.toString().indexOf("Homepage"))+"Details?brand="+brand+"&model="+model;
+    console.log(url);
+    window.location.href = url;
+}
+
+function filterapply(action) {
+    if (action === "show") {
+        $('.filter-title-container span').html("Filters Selected");
+        $('.apply-filter').css("display", "block");
+    }
+    if (action === "hide") {
+        $('.filter-title-container span').html("Filters");
+        $('.apply-filter').css("display", "none");
+    }
 }
 

@@ -14,11 +14,14 @@
 <%@page import="java.util.*"%>
 <%@page import="com.weblogics.DBDevice"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<script>
+    <%@ include file="./js/filter-ajax.js" %>
+</script>
 <div class="filter-title filter-all">
     <div class="filter-title-container">
         <i class="fa fa-filter" aria-hidden="true"></i>
         <span style="margin-left:10px;">Filters</span>
-        <div class="apply-filter"><i class="fa fa-check" aria-hidden="true"></i> Apply</div>
+        <div class="apply-filter" onclick="filterAjax(this.parentElement.parentElement);"><i class="fa fa-check" onclick="addfilterRange(this.parentElement.parentElement);" aria-hidden="true"></i> Apply</div>
     </div>
     <div style="clear: both" class="clearfloat"></div>
 
@@ -27,7 +30,7 @@
     <span id="brand-text">Brands </span>
     <ul class="brand-ul">
         <%for (int i = 0; i < 4; i++) {
-                String capitalized = Globals.brands.get(i).substring(0, 1).toUpperCase() + Globals.brands.get(i).substring(1);
+                String capitalized = Globals.BRANDS.get(i).substring(0, 1).toUpperCase() + Globals.BRANDS.get(i).substring(1);
         %>
 
         <li class="short-brand">
@@ -49,7 +52,7 @@
             for (int al = 0; al < 26; al++) {
                 char ch = (char) (al + 65);
                 ArrayList<String> brands_a = new ArrayList<>();
-                for (String brand : Globals.brands) {
+                for (String brand : Globals.BRANDS) {
                     if (brand.startsWith((ch + "").toLowerCase())) {
                         brand = brand.substring(0, 1).toUpperCase() + brand.substring(1);
                         brands_a.add(brand);
@@ -105,77 +108,89 @@
     <span id="os-text">Operating Systems </span>
     <ul class="os-ul">
         <li>
-            <label class="container" data-os="Android">Android<input onclick="oschecked('Android',this);" type="checkbox">
+            <label class="container" data-os="Android">Android<input onclick="oschecked('Android', this);" type="checkbox">
                 <span class="checkmark"></span>
             </label>
         </li>
         <li>
-            <label class="container" data-os="Windows">Windows<input onclick="oschecked('Windows',this);" type="checkbox">
+            <label class="container" data-os="Windows">Windows<input onclick="oschecked('Windows', this);" type="checkbox">
                 <span class="checkmark"></span>
             </label>
         </li>
         <li>
-            <label class="container" data-os="Symbian">Symbian<input onclick="oschecked('Symbian',this);" type="checkbox">
+            <label class="container" data-os="Symbian">Symbian<input onclick="oschecked('Symbian', this);" type="checkbox">
                 <span class="checkmark"></span>
             </label>
         </li>
         <li>
-            <label class="container" data-os="BlackBerry">BlackBerry<input onclick="oschecked('BlackBerry',this);" type="checkbox">
+            <label class="container" data-os="BlackBerry">BlackBerry<input onclick="oschecked('BlackBerry', this);" type="checkbox">
                 <span class="checkmark"></span>
             </label>
         </li>
         <li>
-            <label class="container" data-os="Others">Others<input onclick="oschecked('Others',this);" type="checkbox">
+            <label class="container" data-os="Others">Others<input onclick="oschecked('Others', this);" type="checkbox">
                 <span class="checkmark"></span>
             </label>
         </li>
     </ul>
 </div>
-<div class="filter-external filter-all">
+<div class="filter-external filter-all"filter-type='external'>
     <span class="filter-text">External Memory </span>
     <div class="row filter-inp" align="center">
-        <div class="input-container row"><input class="filter-input" id="ext-lower" type="number"><div>GB</div></div>
+        <div class="input-container row"><input onfocus="focusInput(this.parentElement.parentElement,'in');" onfocusout="focusInput(this.parentElement.parentElement,'out');" class="filter-input" id="ext-lower" type="number"><div>GB</div></div>
         <div class="to" align="center">to</div>
-        <div class="input-container row"><input class="filter-input" id="ext-lower" type="number"><div>GB</div></div>
+        <div class="input-container row"><input onfocus="focusInput(this.parentElement.parentElement,'in');" onfocusout="focusInput(this.parentElement.parentElement,'out');" class="filter-input" id="ext-lower" type="number"><div>GB</div></div>
+        <i class="fa fa-check" onclick="addfilterRange(this.parentElement.parentElement);" aria-hidden="true"></i>
+        <i class="fa fa-times" onclick="removefilterRange(this.parentElement.parentElement);" aria-hidden="true"></i>
     </div>
 </div>
-<div class="filter-internal filter-all">
+<div class="filter-internal filter-all" filter-type='internal'>
     <span class="filter-text">Internal Memory </span>
     <div class="row filter-inp" align="center">
-        <div class="input-container row"><input class="filter-input" id="int-lower" type="number"><div>GB</div></div>
+        <div class="input-container row"><input onfocus="focusInput(this.parentElement.parentElement,'in');" onfocusout="focusInput(this.parentElement.parentElement,'out');" class="filter-input" id="int-lower" type="number"><div>GB</div></div>
         <div class="to" align="center">to</div>
-        <div class="input-container row"><input class="filter-input" id="int-lower" type="number"><div>GB</div></div>
+        <div class="input-container row"><input onfocus="focusInput(this.parentElement.parentElement,'in');" onfocusout="focusInput(this.parentElement.parentElement,'out');" class="filter-input" id="int-lower" type="number"><div>GB</div></div>
+        <i class="fa fa-check" onclick="addfilterRange(this.parentElement.parentElement);" aria-hidden="true"></i>
+        <i class="fa fa-times" onclick="removefilterRange(this.parentElement.parentElement);" aria-hidden="true"></i>
     </div>
 </div>
-<div class="filter-ram filter-all">
+<div class="filter-ram filter-all" filter-type='ram'>
     <span class="filter-text">RAM </span>
     <div class="row filter-inp" align="center">
-        <div class="input-container row"><input class="filter-input" id="RAM-lower" type="number"><div>GB</div></div>
+        <div class="input-container row"><input onfocus="focusInput(this.parentElement.parentElement,'in');" onfocusout="focusInput(this.parentElement.parentElement,'out');" class="filter-input" id="RAM-lower" type="number"><div>GB</div></div>
         <div class="to" align="center">to</div>
-        <div class="input-container row"><input class="filter-input" id="RAM-lower" type="number"><div>GB</div></div>
+        <div class="input-container row"><input onfocus="focusInput(this.parentElement.parentElement,'in');" onfocusout="focusInput(this.parentElement.parentElement,'out');" class="filter-input" id="RAM-lower" type="number"><div>GB</div></div>
+        <i class="fa fa-check" onclick="addfilterRange(this.parentElement.parentElement);" aria-hidden="true"></i>
+        <i class="fa fa-times" onclick="removefilterRange(this.parentElement.parentElement);" aria-hidden="true"></i>
     </div>
 </div>
-<div class="filter-camera filter-all">
+<div class="filter-selfiecam filter-all" filter-type='selfiecam'>
     <span class="filter-text">Selfie Camera </span>
     <div class="row filter-inp" align="center">
-        <div class="input-container row"><input class="filter-input" id="selfiecam-lower" type="number"><div>MP</div></div>
+        <div class="input-container row"><input onfocus="focusInput(this.parentElement.parentElement,'in');" onfocusout="focusInput(this.parentElement.parentElement,'out');" class="filter-input" id="selfiecam-lower" type="number"><div>MP</div></div>
         <div class="to" align="center">to</div>
-        <div class="input-container row"><input class="filter-input" id="selfiecam-lower" type="number"><div>MP</div></div>
+        <div class="input-container row"><input onfocus="focusInput(this.parentElement.parentElement,'in');" onfocusout="focusInput(this.parentElement.parentElement,'out');" class="filter-input" id="selfiecam-lower" type="number"><div>MP</div></div>
+        <i class="fa fa-check" onclick="addfilterRange(this.parentElement.parentElement);" aria-hidden="true"></i>
+        <i class="fa fa-times" onclick="removefilterRange(this.parentElement.parentElement);" aria-hidden="true"></i>
     </div>
 </div>
-<div class="filter-battery filter-all">
+<div class="filter-maincam filter-all" filter-type='maincam'>
     <span class="filter-text">Main Camera </span>
     <div class="row filter-inp" align="center">
-        <div class="input-container row"><input class="filter-input" id="maincam-lower" type="number"><div>MP</div></div>
+        <div class="input-container row"><input onfocus="focusInput(this.parentElement.parentElement,'in');" onfocusout="focusInput(this.parentElement.parentElement,'out');" class="filter-input" id="maincam-lower" type="number"><div>MP</div></div>
         <div class="to" align="center">to</div>
-        <div class="input-container row"><input class="filter-input" id="maincam-lower" type="number"><div>MP</div></div>
+        <div class="input-container row"><input onfocus="focusInput(this.parentElement.parentElement,'in');" onfocusout="focusInput(this.parentElement.parentElement,'out');" class="filter-input" id="maincam-lower" type="number"><div>MP</div></div>
+        <i class="fa fa-check" onclick="addfilterRange(this.parentElement.parentElement);" aria-hidden="true"></i>
+        <i class="fa fa-times" onclick="removefilterRange(this.parentElement.parentElement);" aria-hidden="true"></i>
     </div>
 </div>
-<div class="filter-battery filter-all">
+<div class="filter-battery filter-all" filter-type='battery'>
     <span class="filter-text">Battery </span>
     <div class="row filter-inp" align="center">
-        <div class="input-container row"><input class="filter-input" style="width:70%;" id="battery-lower" type="number"><div>mAh</div></div>
+        <div class="input-container row"><input onfocus="focusInput(this.parentElement.parentElement,'in');" onfocusout="focusInput(this.parentElement.parentElement,'out');" class="filter-input" style="width:70%;" id="battery-lower" type="number"><div>mAh</div></div>
         <div class="to" align="center">to</div>
-        <div class="input-container row"><input class="filter-input" style="width:70%;" id="battery-lower" type="number"><div>mAh</div></div>
+        <div class="input-container row"><input onfocus="focusInput(this.parentElement.parentElement,'in');" onfocusout="focusInput(this.parentElement.parentElement,'out');" class="filter-input" style="width:70%;" id="battery-lower" type="number"><div>mAh</div></div>
+        <i class="fa fa-check" onclick="addfilterRange(this.parentElement.parentElement);" aria-hidden="true"></i>
+        <i class="fa fa-times" onclick="removefilterRange(this.parentElement.parentElement);" aria-hidden="true"></i>
     </div>
 </div>

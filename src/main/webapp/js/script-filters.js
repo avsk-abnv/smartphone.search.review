@@ -77,22 +77,23 @@ function filter_removeself(event) {
             }
         }
     }
+    var checkFilter = ["external", "internal", "ram", "selfiecam", "maincam", "battery"];
+    for (let i = 0; i < checkFilter.length; i++) {
+        if (filtertype === checkFilter[i]) {
+            $('.filter-'+checkFilter[i]).children().eq(1).children().eq(0).children().eq(0).val("");
+            $('.filter-'+checkFilter[i]).children().eq(1).children().eq(0).children().eq(0).prop("disabled",false);
+            $('.filter-'+checkFilter[i]).children().eq(1).children().eq(2).children().eq(0).val("");
+            $('.filter-'+checkFilter[i]).children().eq(1).children().eq(2).children().eq(0).prop("disabled",false);
+            $('.filter-'+checkFilter[i]).children().eq(1).children().eq(3).css("display", "none");
+            $('.filter-'+checkFilter[i]).children().eq(1).children().eq(4).css("display", "none");
+        }
+    }
+
     $('#' + id).remove();
     if (is_filterSelected() === "firstselected") {
         filterapply("show");
     } else if (is_filterSelected() === "noneselected") {
         filterapply("hide");
-    }
-}
-
-function filterapply(action) {
-    if (action === "show") {
-        $('.filter-title-container span').html("Filters Selected");
-        $('.apply-filter').css("display", "block");
-    }
-    if (action === "hide") {
-        $('.filter-title-container span').html("Filters");
-        $('.apply-filter').css("display", "none");
     }
 }
 
@@ -103,5 +104,50 @@ function is_filterSelected() {
         return "noneselected";
     } else {
         return "moreselected";
+    }
+}
+function focusInput(event, action) {
+    if (action === 'in') {
+        event.children[3].style.display = "block";
+    } else {
+        if (event.children[0].children[0].value.length > 0 || event.children[2].children[0].value.length > 0) {
+            event.children[3].style.display = "block";
+        } else {
+            event.children[3].style.display = "none";
+        }
+    }
+}
+function addfilterRange(event) {
+    var filterType = event.getAttribute("filter-type");
+    var from = event.children[1].children[0].children[0].value;
+    event.children[1].children[0].children[0].disabled = true;
+    var to = event.children[1].children[2].children[0].value;
+    event.children[1].children[2].children[0].disabled = true;
+    if (from.length === 0)
+        from = 0.0;
+    if (to.length === 0)
+        to = "inf";
+    $("<div onclick='filter_removeself(this);' class='filter-selected' id='" + filterType + "' data-filter='" + filterType + ":" + from + "to" + to + "'>" + filterType + "</div>").insertBefore($('.clearfloat'));
+    if (is_filterSelected() === "firstselected") {
+        filterapply("show");
+    } else if (is_filterSelected() === "noneselected") {
+        filterapply("hide");
+    }
+    event.children[1].children[3].style.display = "none";
+    event.children[1].children[4].style.display = "block";
+}
+function removefilterRange(event) {
+    event.children[1].children[0].children[0].disabled = false;
+    event.children[1].children[2].children[0].disabled = false;
+    event.children[1].children[0].children[0].value = "";
+    event.children[1].children[2].children[0].value = "";
+    
+    event.children[1].children[3].style.display = "none";
+    event.children[1].children[4].style.display = "none";
+    $('#' + event.getAttribute("filter-type")).remove();
+    if (is_filterSelected() === "firstselected") {
+        filterapply("show");
+    } else if (is_filterSelected() === "noneselected") {
+        filterapply("hide");
     }
 }

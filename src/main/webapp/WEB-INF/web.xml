@@ -17,14 +17,26 @@
         </init-param>
         <init-param>
             <param-name>xpoweredBy</param-name>
-            <param-value>false</param-value> 
+            <param-value>false</param-value>
         </init-param>
-        <init-param> 
+        <init-param>
             <param-name>mappedfile</param-name>
             <param-value>false</param-value>
         </init-param>
         <load-on-startup>3</load-on-startup>
-    </servlet> 
+    </servlet>
+    <servlet>
+        <servlet-name>Details</servlet-name>
+        <servlet-class>com.controller.Details</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Filter</servlet-name>
+        <servlet-class>com.controller.Filter</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Fetch</servlet-name>
+        <servlet-class>com.controller.Fetch</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Homepage</servlet-name>
         <url-pattern>/Homepage</url-pattern>
@@ -32,6 +44,18 @@
     <servlet-mapping>
         <servlet-name>Start</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Details</servlet-name>
+        <url-pattern>/Details</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Filter</servlet-name>
+        <url-pattern>/Filter</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Fetch</servlet-name>
+        <url-pattern>/Fetch</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

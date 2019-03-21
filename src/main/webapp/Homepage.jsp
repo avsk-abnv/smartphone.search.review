@@ -25,6 +25,7 @@
             <%@ include file="./css/style.css" %>
             <%@ include file="./css/checkbox.css" %>
             <%@ include file="./css/checkbox-body.css" %>
+            <%@ include file="./css/loader.css" %>
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
@@ -35,6 +36,10 @@
     </head>
     <body style="margin:0px;">
         <div class="mask"></div>
+        <div class='loader-mask' align="center">
+            <div class="lds-dual-ring"></div>
+            <div class="loading">Loading...</div>
+        </div>
         <div id="middle">
             <div id="mask-navbar"></div>
             <div id="navbar-container"></div>
@@ -50,6 +55,8 @@
                             <div class="sort-by" align="center">Sort By :</div>
                             <div class="popularity" align="center">Popularity</div>
                             <div class="recommendation" align="center">Recommendation</div>
+                            <div class="filter-result">Filter Results : </div>
+                            <div class="filter-result-count">000</div>
                         </div>
                         <%
                             //ArrayList<String> deviceIDs = (ArrayList)request.getAttribute("deviceIDs");
@@ -58,7 +65,7 @@
                         %>
                         <div class="grid-row row">
                             <%for (Device device : deviceRow) {%>
-                            <div class="grid-cols column">
+                            <div class="grid-cols column" data-brand="<%=device.brand%>">
                                 <div class="img-container" onclick="showdetails(this.parentElement);" align="center">
                                     <img class="thumbnails" src="<%=Globals.decodeNormal(device.info.get("imageURL").get("main"))%>" alt="no image found" onerror="this.src = 'https://device-pics.firebaseapp.com/noimage.png';"/>
                                 </div>
