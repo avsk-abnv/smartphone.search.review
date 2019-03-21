@@ -57,6 +57,8 @@
                             <div class="recommendation" align="center">Recommendation</div>
                             <div class="filter-result">Filter Results : </div>
                             <div class="filter-result-count">000</div>
+                            <div class="page-title">Page : </div>
+                            <div class="page-count">1</div>
                         </div>
                         <%
                             //ArrayList<String> deviceIDs = (ArrayList)request.getAttribute("deviceIDs");
@@ -82,8 +84,8 @@
                         %>
                         <div id="mask-pageno"></div>
                         <div class="page-row row">
-                            <div class="prev-page"><i class="fa fa-chevron-left" aria-hidden="true"></i> Previous</div>
-                            <div class="next-page">Next <i class="fa fa-chevron-right" aria-hidden="true"></i></div>
+                            <div class="prev-page" onclick="prevPage();"><i class="fa fa-chevron-left" aria-hidden="true"></i> Previous</div>
+                            <div class="next-page" onclick="nextPage();">Next <i class="fa fa-chevron-right" aria-hidden="true"></i></div>
                         </div>
                     </div>
                 </div>

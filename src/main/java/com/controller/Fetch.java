@@ -6,10 +6,12 @@
 package com.controller;
 
 import com.accessObjects.Device;
-import static com.accessObjects.Globals.decodeNormal;
+import static com.accessObjects.Globals.encode4Firebase;
 import com.weblogics.DBDevice;
+import com.weblogics.More4Servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Fetch extends HttpServlet {
 
     protected static int processed;
-
+    ArrayList<String> sortedBy_Feature;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -31,8 +33,13 @@ public class Fetch extends HttpServlet {
             if (reqData.equalsIgnoreCase("ping")) {
                 int index = Integer.parseInt(request.getParameter("index"));
                 DBDevice db = new DBDevice();
-                Device device = db.getByDeviceID(Filter.filter_DeviceIDs.get(index));
-                out.println(device.brand+","+decodeNormal(device.model)+","+device.info.get("imageURL").get("main"));
+                if(index == 0)
+                    sortedBy_Feature = Filter.filter_DeviceIDs;
+                    //sortedBy_Feature = More4Servlets.sortBy_Feature(Filter.filter_DeviceIDs, Filter.traversedData);
+                String brand = sortedBy_Feature.get(index).split("%")[0];
+                String model = sortedBy_Feature.get(index).split("%")[1];
+                Device device = db.getByDeviceID(brand+"%"+encode4Firebase(model));
+                out.println(device.brand+","+model+","+device.info.get("imageURL").get("main").replace("_dot_", "."));
             }
         }
     }
@@ -77,3 +84,4 @@ public class Fetch extends HttpServlet {
     }// </editor-fold>
 
 }
+    

@@ -101,6 +101,7 @@ function is_filterSelected() {
     if ($('.filter-title .filter-selected').length === 1) {
         return "firstselected";
     } else if ($('.filter-title .filter-selected').length === 0) {
+        window.location.hash = "";
         return "noneselected";
     } else {
         return "moreselected";

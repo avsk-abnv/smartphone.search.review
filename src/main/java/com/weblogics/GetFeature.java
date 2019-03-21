@@ -34,20 +34,22 @@ public class GetFeature implements GetFeatureINTF {
         boolean exception = false;
         JsonReader jsonReader = null;
         if (devicevector_brand.containsKey(brand)) {
-            if (prop.equals("selfiecam") || prop.equals("maincam")) {
-                prop_val = Double.parseDouble(devicevector_brand.get(brand).get(model).get(VECTOR_INDEX.indexOf(prop))) / 30 + " MP";
-            } else if (prop.equals("ram") || prop.equals("external") || prop.equals("internal")) {
-                double val = Double.parseDouble(devicevector_brand.get(brand).get(model).get(VECTOR_INDEX.indexOf(prop)));
-                if (val > 0 && val < 1) {
-                    prop_val = val * 1024 + " MB";
-                } else if (val > 1) {
-                    prop_val = val + " GB";
-                } else if (val == 0) {
-                    prop_val = "";
+            if (devicevector_brand.get(brand).containsKey(model)) {
+                if (prop.equals("selfiecam") || prop.equals("maincam")) {
+                    prop_val = Double.parseDouble(devicevector_brand.get(brand).get(model).get(VECTOR_INDEX.indexOf(prop))) / 30 + " MP";
+                } else if (prop.equals("ram") || prop.equals("external") || prop.equals("internal")) {
+                    double val = Double.parseDouble(devicevector_brand.get(brand).get(decodeNormal(model)).get(VECTOR_INDEX.indexOf(prop)));
+                    if (val > 0 && val < 1) {
+                        prop_val = val * 1024 + " MB";
+                    } else if (val > 1) {
+                        prop_val = val + " GB";
+                    } else if (val == 0) {
+                        prop_val = "";
+                    }
+                } else if (prop.equals("battery")) {
+                    double val = Double.parseDouble(devicevector_brand.get(brand).get(model).get(VECTOR_INDEX.indexOf(prop))) * 50;
+                    prop_val = val + " mAh";
                 }
-            } else if (prop.equals("battery")) {
-                double val = Double.parseDouble(devicevector_brand.get(brand).get(model).get(VECTOR_INDEX.indexOf(prop))) * 50;
-                prop_val = val + " mAh";
             }
         } else {
 

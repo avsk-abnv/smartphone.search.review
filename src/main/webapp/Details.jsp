@@ -65,7 +65,7 @@
                                 </div>
                             </td>
                             <td class="image-container">
-                                <img src="<%=device.info.get("imageURL").get("main")%>" alt="no image found" onerror="this.src = 'https://device-pics.firebaseapp.com/noimage.png';">
+                                <img src="<%=device.info.get("imageURL").get("main").replace("_dot_", ".")%>" alt="no image found" onerror="this.src = 'https://device-pics.firebaseapp.com/noimage.png';">
                             </td>
                             <td class="model-details-2">
                                 <div class="container-right row">

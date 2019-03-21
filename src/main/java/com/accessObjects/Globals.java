@@ -42,7 +42,7 @@ public class Globals {
         return str;
     }
     public static String decodeNormal(String str){
-        str = str.replace("_dot_",".").replace("_dollar_","$").replace("*","#").replace(" or ","/").replace("point", ".");
+        str = str.replace("_dot_",".").replace("_dollar_","$").replace(" or ","/").replace("point", ".");
         return str;
     }
     public static TreeSet<String> toTreeSet(Object obj){

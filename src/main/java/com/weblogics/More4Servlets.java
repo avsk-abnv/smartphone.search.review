@@ -24,17 +24,17 @@ public class More4Servlets {
         String startkey = "";
         String endkey = "";
         TreeMap<String, TreeSet<String>> currMap;
-        if(filterType.equalsIgnoreCase("internal")){
+        if (filterType.equalsIgnoreCase("internal")) {
             currMap = INTERNAL_MAPPING;
-        } else if(filterType.equalsIgnoreCase("external")) {
+        } else if (filterType.equalsIgnoreCase("external")) {
             currMap = EXTERNAL_MAPPING;
-        } else if(filterType.equalsIgnoreCase("ram")) {
+        } else if (filterType.equalsIgnoreCase("ram")) {
             currMap = RAM_MAPPING;
-        } else if(filterType.equalsIgnoreCase("selfiecam")) {
+        } else if (filterType.equalsIgnoreCase("selfiecam")) {
             currMap = SELFIECAM_MAPPING;
-        } else if(filterType.equalsIgnoreCase("maincam")) {
+        } else if (filterType.equalsIgnoreCase("maincam")) {
             currMap = MAINCAM_MAPPING;
-        } else if(filterType.equalsIgnoreCase("battery")) {
+        } else if (filterType.equalsIgnoreCase("battery")) {
             currMap = BATTERY_MAPPING;
         } else {
             currMap = new TreeMap<>();
@@ -100,7 +100,7 @@ public class More4Servlets {
         for (String pack : toTreeSet(currMap.get(tempkey))) {
             filterPacks.add(pack);
         }
-        filterPacks.add(0,packSize + "");
+        filterPacks.add(0, packSize + "");
         return filterPacks;
     }
 
@@ -128,5 +128,37 @@ public class More4Servlets {
             }
         }
         return nextkey;
+    }
+
+    public static ArrayList<String> sortBy_Feature(ArrayList<String> deviceIDs, TreeMap<String, ArrayList<String>> traversedData) {
+        for (int i = 0; i < deviceIDs.size() - 1; i++) {
+            String brand = deviceIDs.get(i).split("%")[0];
+            String model = deviceIDs.get(i).split("%")[1];
+
+            for (int j = 0; j < deviceIDs.size() - i - 1; j++) {
+                if (get_vectorLength(deviceIDs.get(j).split("%")[1],traversedData) < get_vectorLength(deviceIDs.get(j).split("%")[1],traversedData)) {
+                    
+                    String tempID = deviceIDs.get(j);
+                    deviceIDs.set(j,deviceIDs.get(j+1));
+                    deviceIDs.set(j + 1,tempID);
+                }
+            }
+        }
+        return deviceIDs;
+    }
+
+    public static double get_vectorLength(String model, TreeMap<String, ArrayList<String>> traversedData) {
+        double vectorLength;
+        double temp = 0;
+        for (int i = 1; i < traversedData.get(model).size(); i++) {
+            double vectorVal = Double.parseDouble(traversedData.get(model).get(i));
+            temp += vectorVal * vectorVal;
+        }
+        vectorLength = Math.sqrt(temp);
+        return vectorLength;
+    }
+
+    public static ArrayList<String> sortBy_Popularity(ArrayList<String> deviceIDs) {
+        return deviceIDs;
     }
 }
