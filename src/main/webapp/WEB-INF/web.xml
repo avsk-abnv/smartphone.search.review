@@ -37,6 +37,10 @@
         <servlet-name>Fetch</servlet-name>
         <servlet-class>com.controller.Fetch</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HomepageData</servlet-name>
+        <servlet-class>com.controller.HomepageData</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Homepage</servlet-name>
         <url-pattern>/Homepage</url-pattern>
@@ -56,6 +60,10 @@
     <servlet-mapping>
         <servlet-name>Fetch</servlet-name>
         <url-pattern>/Fetch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomepageData</servlet-name>
+        <url-pattern>/HomepageData</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -5,23 +5,19 @@
  */
 package com.controller;
 
-import com.accessObjects.Device;
-import static com.accessObjects.Globals.*;
+import static com.accessObjects.Globals.VECTOR_INDEX;
 import static com.accessObjects.Globals.encode4Firebase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import com.weblogics.DBDevice;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,39 +27,62 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Abhishek Abhinav
  */
-public class Homepage extends HttpServlet {
+public class HomepageData extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    public static JsonReader jsonReader = null;
+    public static ArrayList<String> home_deviceIDs;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        DBDevice dbdevice = new DBDevice();
-        ArrayList<ArrayList<Device>> devices = new ArrayList<>();
-        ArrayList<Device> devRow = new ArrayList<>();
-        int count = 0;
-        for (int i=0; i<16; i++) {
-            Device device = new Device();
-            devRow.add(device);
-            if (devRow.size() == 4) {
-                devices.add(devRow);
-                devRow = new ArrayList<>();
+        try (PrintWriter out = response.getWriter()) {
+            int page = Integer.parseInt(request.getParameter("page").toString());
+            System.out.println(page);
+            if (page == 1) {
+                home_deviceIDs = new ArrayList<>();
+                URL url = new URL("https://device-pics.firebaseapp.com/devicevector_sorted.json");
+                jsonReader = new JsonReader(new InputStreamReader(url.openStream()));
+                jsonReader.beginObject();
+                
             }
-            count++;
-            if (count == 16) {
-                break;
+            
+            boolean exception = false;
+            try {
+                Gson gson = new GsonBuilder().create();
+                System.out.println(jsonReader.hasNext());
+                while (jsonReader.hasNext()) {
+                    String model = jsonReader.nextName();
+                    ArrayList<String> devarr = gson.fromJson(jsonReader.nextString(), ArrayList.class);
+                    String brand = devarr.get(0);
+                    String deviceID = brand + "%" + encode4Firebase(model);
+                    home_deviceIDs.add(deviceID);
+                    if (home_deviceIDs.size() >= 16 * page) {
+                        break;
+                    }
+                    //jsonReader.endObject();
+                }
+                if (!jsonReader.hasNext()) {
+                    jsonReader.endObject();
+                    jsonReader.close();
+                    out.println("Finished:"+(home_deviceIDs.size()-16*(page-1)));
+                }else{
+                    out.println("Page loaded");
+                }
+                System.out.println("--"+jsonReader.hasNext());
+
+            } catch (MalformedURLException ex) {
+                exception = true;
+            } catch (IOException ex) {
+                exception = true;
+            } finally {
+                
+            }
+            if (exception) {
+                home_deviceIDs.removeAll(home_deviceIDs);
+                home_deviceIDs.add("error");
             }
         }
-        request.setAttribute("devices", devices);
-        RequestDispatcher rd = request.getRequestDispatcher("Homepage.jsp");
-        rd.forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

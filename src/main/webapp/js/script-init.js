@@ -1,3 +1,7 @@
+function openHomepage(){
+    window.location.href = window.location.href.substring(0,window.location.href.indexOf("Homepage"))+"Homepage";
+}
+
 function showbrands(){
     var $brand_div = $("#all-brand-names");
     $brand_div.css("display","block");

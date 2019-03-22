@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div id="navbar" class="row">
-    <div class="logo"><div id="logo-design">Smartphone Search & Review</div></div>
+    <div class="logo"><div id="logo-design"onclick="openHomepage();">Smartphone Search & Review</div></div>
     <div class="search-box row">
         <input type="text" placeholder="Search devices" class="search-input" />
         <div class="search-icon"><i style="color:black" class="fa fa-search fa-lg"></i></div>

@@ -30,16 +30,18 @@ public class Fetch extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String reqData = request.getParameter("request");
-            if (reqData.equalsIgnoreCase("ping")) {
+            if (reqData.equalsIgnoreCase("ping")||reqData.equalsIgnoreCase("ping-homepage")) {
                 int index = Integer.parseInt(request.getParameter("index"));
                 DBDevice db = new DBDevice();
-                if(index == 0)
+                if(index == 0 && reqData.equalsIgnoreCase("ping"))
                     sortedBy_Feature = Filter.filter_DeviceIDs;
+                if(index == 0 && reqData.equalsIgnoreCase("ping-homepage"))
+                    sortedBy_Feature = HomepageData.home_deviceIDs;
                     //sortedBy_Feature = More4Servlets.sortBy_Feature(Filter.filter_DeviceIDs, Filter.traversedData);
                 String brand = sortedBy_Feature.get(index).split("%")[0];
                 String model = sortedBy_Feature.get(index).split("%")[1];
                 Device device = db.getByDeviceID(brand+"%"+encode4Firebase(model));
-                out.println(device.brand+","+model+","+device.info.get("imageURL").get("main").replace("_dot_", "."));
+                out.println(device.brand+","+model.replace("_dot_",".")+","+device.info.get("imageURL").get("main").replace("_dot_", "."));
             }
         }
     }

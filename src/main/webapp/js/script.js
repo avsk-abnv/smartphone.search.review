@@ -41,16 +41,27 @@ $("#filters").ready(function () {
 
 });
 function tryApplying_hash(getHash) {
-    setTimeout(function () {
-        if ($('.filter-title-container span').text() !== "Filters Selected") {
-            applyHash(getHash);
-            tryApplying_hash(getHash);
+    if (getHash.split("-").length === 1) {
+        var page = parseInt(getHash.split(":")[1]);
+        setTimeout(function () {
+        if($('.grid-cols').length === 16){
+            getHomepageData(page);
         } else {
-            console.log("hash applied");
-            $('.loader-mask').css("display", "block");
-            sendAjaxRequest("reset", getHash.split("-")[0].replace("&", "and")); //reset to reset instance variables of servlet
+            tryGettingHomepageData();
         }
     }, 500);
+    } else {
+        setTimeout(function () {
+            if ($('.filter-title-container span').text() !== "Filters Selected") {
+                applyHash(getHash);
+                tryApplying_hash(getHash);
+            } else {
+                console.log("hash applied");
+                $('.loader-mask').css("display", "block");
+                sendAjaxRequest("reset", getHash.split("-")[0].replace("&", "and")); //reset to reset instance variables of servlet
+            }
+        }, 500);
+    }
 }
 
 function applyHash(all_filterdata) {
@@ -124,20 +135,26 @@ function nextPage() {
     var currPage;
     if (window.location.hash === "")
         currPage = "page:1";
-    else
+    else if (window.location.hash.toString().split("-").length > 1) {
         currPage = window.location.hash.toString().split("-")[1];
-    var pageNo = parseInt(currPage.split(":")[1]);
+        var pageNo = parseInt(currPage.split(":")[1]);
 
-    var total_count = parseInt($(".filter-result-count").text().toString());
-    if (total_count - pageNo * 16 > 0 && $('.filter-title span').text() === "Filters Selected") {
-        window.location.hash = window.location.hash.toString().split("-")[0] + "-page:" + (pageNo + 1);
-        var no_data = total_count - pageNo * 16;
-        $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
-        $('.img-container').css("display", "none");
-        $('.title').css("display", "none");
-        $('.loader-mask').css("display", "block");
-        $('.page-count').html((pageNo + 1) + "");
-        fetchFromDatabase("ping", no_data, pageNo * 16);
+        var total_count = parseInt($(".filter-result-count").text().toString());
+        if (total_count - pageNo * 16 > 0 && $('.filter-title span').text() === "Filters Selected") {
+            window.location.hash = window.location.hash.toString().split("-")[0] + "-page:" + (pageNo + 1);
+            var no_data = total_count - pageNo * 16;
+            $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
+            $('.img-container').css("display", "none");
+            $('.title').css("display", "none");
+            $('.loader-mask').css("display", "block");
+            $('.page-count').html((pageNo + 1) + "");
+
+            fetchFromDatabase("ping", no_data, pageNo * 16);
+        }
+    } else if (window.location.hash.toString().split("-").length === 1) {
+        var pageNo = parseInt(window.location.hash.toString().split(":")[1]);
+        if (pageNo * 16 < 5245)
+            getHomepageData(pageNo + 1);
     }
 }
 
@@ -145,19 +162,24 @@ function prevPage() {
     var currPage;
     if (window.location.hash === "")
         currPage = "page:1";
-    else
+    else if (window.location.hash.toString().split("-").length > 1) {
         currPage = window.location.hash.toString().split("-")[1];
-    var pageNo = parseInt(currPage.split(":")[1]);
+        var pageNo = parseInt(currPage.split(":")[1]);
 
-    var total_count = parseInt($(".filter-result-count").text().toString());
-    if (pageNo > 1 && $('.filter-title span').text() === "Filters Selected") {
-        window.location.hash = window.location.hash.toString().split("-")[0] + "-page:" + (pageNo - 1);
-        var no_data = total_count - (pageNo - 2) * 16;
-        $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
-        $('.img-container').css("display", "none");
-        $('.title').css("display", "none");
-        $('.loader-mask').css("display", "block");
-        $('.page-count').html((pageNo - 1) + "");
-        fetchFromDatabase("ping", no_data, (pageNo - 2) * 16);
+        var total_count = parseInt($(".filter-result-count").text().toString());
+        if (pageNo > 1 && $('.filter-title span').text() === "Filters Selected") {
+            window.location.hash = window.location.hash.toString().split("-")[0] + "-page:" + (pageNo - 1);
+            var no_data = total_count - (pageNo - 2) * 16;
+            $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
+            $('.img-container').css("display", "none");
+            $('.title').css("display", "none");
+            $('.loader-mask').css("display", "block");
+            $('.page-count').html((pageNo - 1) + "");
+            fetchFromDatabase("ping", no_data, (pageNo - 2) * 16);
+        }
+    } else if (window.location.hash.toString().split("-").length === 1) {
+        var pageNo = parseInt(window.location.hash.toString().split(":")[1]);
+        if (pageNo > 1)
+            getHomepageData(pageNo - 1);
     }
 }

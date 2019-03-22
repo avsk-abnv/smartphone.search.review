@@ -9,6 +9,7 @@ function filterAjax(event) {
     console.log(filterstring);
     $('.loader-mask').css("display", "block");
     window.location.hash = filterstring + "-page:1";
+    $('.page-count').html(1+"");
     filterstring = filterstring.replace("&", "and");
     sendAjaxRequest("reset", filterstring); //reset to reset instance variables of servlet
 }
@@ -23,8 +24,8 @@ function sendAjaxRequest(sData, filterstring) {
             if (sData !== "get result")
                 $('.loader-mask .loading').html($.trim(data));
             else {
-                $('.filter-result').css("display", "block");
-                $('.filter-result-count').css("display", "block");
+                $('.filter-result').css("visibility", "visible");
+                $('.filter-result-count').css("visibility", "visible");
                 $('.filter-result-count').html($.trim(data));
                 var total_data = 15;
                 if (parseInt($.trim(data)) < 16)
@@ -81,7 +82,7 @@ function fetchFromDatabase(sData, no_data, timesCalled) {
             console.log("no_data: " + no_data + ",total_data: " + total_data);
             if (timesCalled % 16 < total_data) {
                 timesCalled++;
-                fetchFromDatabase("ping", no_data, timesCalled);
+                fetchFromDatabase(sData, no_data, timesCalled);
             } else {
                 $('.loader-mask').css("display", "none");
                 if ($('.page-count').html() === "1")

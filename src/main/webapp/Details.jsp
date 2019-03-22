@@ -21,6 +21,10 @@
         <style>
             <%@ include file="./css/style-details.css" %>
         </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+            <%@ include file="./js/script-init.js" %>
+        </script>
     </head>
     <body style="margin:0px;">
         <div class="mask"></div>
@@ -37,8 +41,8 @@
                     Device device;
                     String os = "";
                     device = dev.getByDeviceID(brand + "%" + model);
-                    if(device.info.containsKey("Platform")){
-                        if(device.info.get("Platform").containsKey("OS")){
+                    if (device.info.containsKey("Platform")) {
+                        if (device.info.get("Platform").containsKey("OS")) {
                             os = device.info.get("Platform").get("OS");
                         }
                     }
@@ -53,11 +57,11 @@
                                 </div>-->
                                 <div class="container-left row">
                                     <i class="fa fa-camera" aria-hidden="true"></i>
-                                    <div class="selfiecamera">Selfie Camera : <%=gft.getProperty(brand+"%"+model,"selfiecam")%></div>
+                                    <div class="selfiecamera">Selfie Camera : <%=gft.getProperty(brand + "%" + model, "selfiecam")%></div>
                                 </div>
                                 <div class="container-left row">
                                     <i class="fa fa-microchip" aria-hidden="true"></i>
-                                    <div class="ram">RAM : <%=gft.getProperty(brand+"%"+model,"ram")%></div>
+                                    <div class="ram">RAM : <%=gft.getProperty(brand + "%" + model, "ram")%></div>
                                 </div>
                                 <div class="container-left row">
                                     <i class="fa fa-code" aria-hidden="true"></i>
@@ -70,16 +74,16 @@
                             <td class="model-details-2">
                                 <div class="container-right row">
                                     <i class="fa fa-camera" aria-hidden="true"></i>
-                                    <div class="maincamera">Main Camera : <%=gft.getProperty(brand+"%"+model,"maincam")%></div>
-                                    
+                                    <div class="maincamera">Main Camera : <%=gft.getProperty(brand + "%" + model, "maincam")%></div>
+
                                 </div>
                                 <div class="container-right row">
                                     <i class="fa fa-microchip" aria-hidden="true"></i>
-                                    <div class="internal">Internal : <%=gft.getProperty(brand+"%"+model,"internal")%></div>
+                                    <div class="internal">Internal : <%=gft.getProperty(brand + "%" + model, "internal")%></div>
                                 </div>
                                 <div class="container-right row">
                                     <i class="fa fa-battery-full" aria-hidden="true"></i>
-                                    <div class="battery">Battery :  <%=gft.getProperty(brand+"%"+model,"battery")%></div>
+                                    <div class="battery">Battery :  <%=gft.getProperty(brand + "%" + model, "battery")%></div>
                                 </div>
                             </td>
                         </tr>
@@ -104,7 +108,16 @@
     </body>
     <script>
         //document.querySelector(".left-triangle").style.marginLeft = (document.body.scrollWidth - document.querySelector(".title").offsetWidth - 80)/2 + "px";
-        document.querySelector(".like").style.marginLeft = (document.body.scrollWidth - document.querySelector(".title").offsetWidth - 160)/2 + "px";
-        document.querySelector(".popularity").style.width = document.querySelector("table").offsetWidth*0.87+"px";
+        document.querySelector(".like").style.marginLeft = (document.body.scrollWidth - document.querySelector(".title").offsetWidth - 160) / 2 + "px";
+        document.querySelector(".popularity").style.width = document.querySelector("table").offsetWidth * 0.87 + "px";
+        var fontsize = 20.0;
+        while (true) {
+            if($('.container-left').eq(2).children().eq(1).height()===$('.container-left').eq(2).height()){
+                break;
+            } else {
+                $('.container-left').eq(2).css("font-size",fontsize+"px");
+            }
+            fontsize = fontsize - 0.5;
+        }
     </script>
 </html>

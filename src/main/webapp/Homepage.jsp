@@ -31,6 +31,7 @@
         <script>
             <%@ include file="./js/script-init.js" %>
             <%@ include file="./js/script-filters.js" %>
+            <%@ include file="./js/homepage-ajax.js" %>
         </script>
 
     </head>
@@ -67,15 +68,15 @@
                         %>
                         <div class="grid-row row">
                             <%for (Device device : deviceRow) {%>
-                            <div class="grid-cols column" data-brand="<%=device.brand%>">
+                            <div class="grid-cols column" data-brand="nobrand">
                                 <div class="img-container" onclick="showdetails(this.parentElement);" align="center">
-                                    <img class="thumbnails" src="<%=Globals.decodeNormal(device.info.get("imageURL").get("main"))%>" alt="no image found" onerror="this.src = 'https://device-pics.firebaseapp.com/noimage.png';"/>
+                                    <img class="thumbnails" src="https://device-pics.firebaseapp.com/noimage.png" alt="no image found" onerror="this.src = 'https://device-pics.firebaseapp.com/noimage.png';"/>
                                 </div>
                                 <label class="container-body">
                                     <input onclick="select_me(this.parentElement.parentElement);" type="checkbox">
                                     <span class="checkmark-body"></span>
                                 </label>
-                                <h6 class="title" onclick="showdetails(this.parentElement);"><%=device.model%></h6>
+                                <h6 class="title" onclick="showdetails(this.parentElement);">Loading...</h6>
                             </div>
                             <%}%>
                         </div>
