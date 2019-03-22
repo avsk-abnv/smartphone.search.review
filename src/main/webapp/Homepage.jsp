@@ -26,6 +26,7 @@
             <%@ include file="./css/checkbox.css" %>
             <%@ include file="./css/checkbox-body.css" %>
             <%@ include file="./css/loader.css" %>
+            <%@ include file="./css/searchbox.css" %>
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>

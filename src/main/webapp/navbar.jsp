@@ -5,10 +5,16 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<script>
+    <%@ include file="./js/searchbox.js" %>
+</script>
 <div id="navbar" class="row">
     <div class="logo"><div id="logo-design"onclick="openHomepage();">Smartphone Search & Review</div></div>
     <div class="search-box row">
-        <input type="text" placeholder="Search devices" class="search-input" />
+        <div class="autocomplete" style="width:500px;">
+            <input id="myInput" type="text" name="myCountry" placeholder="Search Devices">
+        </div>
+        <!--<input type="text" placeholder="Search devices" class="search-input" />-->
         <div class="search-icon"><i style="color:black" class="fa fa-search fa-lg"></i></div>
     </div>
     <div class="login">Login or Sign up</div>
