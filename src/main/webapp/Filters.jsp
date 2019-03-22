@@ -128,7 +128,7 @@
             </label>
         </li>
         <li>
-            <label class="container" data-os="Others">Others<input onclick="oschecked('Others', this);" type="checkbox">
+            <label class="container" data-os="Other">Other<input onclick="oschecked('Other', this);" type="checkbox">
                 <span class="checkmark"></span>
             </label>
         </li>

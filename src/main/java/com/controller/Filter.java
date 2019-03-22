@@ -56,18 +56,40 @@ public class Filter extends HttpServlet {
             } else if (reqStr.equalsIgnoreCase("get result")) {
                 out.println(filter_DeviceIDs.size());
             } else {
-                if (!filterstring.equalsIgnoreCase(currentFilter)||loaded>0) {
+                if (!filterstring.equalsIgnoreCase(currentFilter) || loaded > 0) {
                     loaded++;
                     currentFilter = filterstring;
                     String filterData[] = filterstring.split(",");
                     int min = 9999, temp;
                     String reqFilter = "", reqValue = "";
-
+                    String brandFilter = "brand:", osFilter = "os:";
+                    ArrayList<String> filterData_new = new ArrayList<>();
                     for (int i = 0; i < filterData.length; i++) {
-                        String filterType = filterData[i].split(":")[0];
-                        String filterValue = filterData[i].split(":")[1];
+                        if (filterData[i].split(":")[0].equals("brand")) {
+                            brandFilter += filterData[i].split(":")[1] + ",";
+                        } else if (filterData[i].split(":")[0].equals("os")) {
+                            osFilter += filterData[i].split(":")[1] + ",";
+                        } else {
+                            filterData_new.add(filterData[i]);
+                        }
+                    }
+                    if (!brandFilter.equals("brand:")) {
+                        brandFilter = brandFilter.substring(0, brandFilter.length() - 1);
+                        filterData_new.add(brandFilter);
+                    }
+                    if (!osFilter.equals("os:")) {
+                        osFilter = osFilter.substring(0, osFilter.length() - 1);
+                        filterData_new.add(osFilter);
+                    }
+                    for (int i = 0; i < filterData_new.size(); i++) {
+                        String filterType = filterData_new.get(i).split(":")[0];
+                        String filterValue = filterData_new.get(i).split(":")[1];
                         if (filterType.equalsIgnoreCase("brand") || filterType.equalsIgnoreCase("os")) {
-                            temp = Integer.parseInt(toTreeMap(FILTER_SIZE.get(filterType)).get(filterValue.toLowerCase()));
+                            String[] filterValues = filterValue.split(",");
+                            temp = 0;
+                            for (int j = 0; j < filterValues.length; j++) {
+                                temp += Integer.parseInt(toTreeMap(FILTER_SIZE.get(filterType)).get(filterValues[j].toLowerCase()));
+                            }
 
                         } else {
                             temp = Integer.parseInt(More4Servlets.getFilterPacks(filterType, filterValue).get(0));
@@ -107,21 +129,33 @@ public class Filter extends HttpServlet {
                                 String brand = devarr.get(0);
                                 traversedData.put(model, devarr);
                                 boolean satisfy = false;
-                                for (int i = 0; i < filterData.length; i++) {
-                                    String filterType = filterData[i].split(":")[0];
-                                    String filterValue = filterData[i].split(":")[1];
+                                for (int i = 0; i < filterData_new.size(); i++) {
+                                    String filterType = filterData_new.get(i).split(":")[0];
+                                    String filterValue = filterData_new.get(i).split(":")[1];
                                     if (filterType.equalsIgnoreCase("os")) {
-                                        if (devarr.get(VECTOR_INDEX.indexOf(filterValue.toLowerCase())).equals("100")) {
-                                            satisfy = true;
-                                        } else {
-                                            satisfy = false;
+                                        String filterValues[] = filterValue.split(",");
+                                        for (int j = 0; j < filterValues.length; j++) {
+                                            if (devarr.get(VECTOR_INDEX.indexOf(filterValues[j].toLowerCase())).equals("100")) {
+                                                satisfy = true;
+                                                break;
+                                            } else {
+                                                satisfy = false;
+                                            }
+                                        }
+                                        if (satisfy == false) {
                                             break;
                                         }
                                     } else if (filterType.equalsIgnoreCase("brand")) {
-                                        if (devarr.get(0).equals(filterValue.toLowerCase())) {
-                                            satisfy = true;
-                                        } else {
-                                            satisfy = false;
+                                        String filterValues[] = filterValue.split(",");
+                                        for (int j = 0; j < filterValues.length; j++) {
+                                            if (devarr.get(0).equals(filterValues[j].toLowerCase())) {
+                                                satisfy = true;
+                                                break;
+                                            } else {
+                                                satisfy = false;
+                                            }
+                                        }
+                                        if (satisfy == false) {
                                             break;
                                         }
                                     } else if (filterType.equalsIgnoreCase("internal") || filterType.equalsIgnoreCase("external")
@@ -190,9 +224,12 @@ public class Filter extends HttpServlet {
     protected static ArrayList<String> getTraverse_URLs(String reqFilter, String reqValue, PrintWriter out) throws MalformedURLException {
         ArrayList<String> reqURLs = new ArrayList<>();
         if (reqFilter.equals("brand")) {
-            String pack = BRAND_MAPPING.get(reqValue);
-            String urlstr = "https://device-pics.firebaseapp.com/filters-sorted/" + reqFilter + "/devicevector-" + reqFilter + "-" + pack + ".json";
-            reqURLs.add(urlstr);
+            String[] reqValues = reqValue.split(",");
+            for (int i = 0; i < reqValues.length; i++) {
+                String pack = BRAND_MAPPING.get(reqValues[i]);
+                String urlstr = "https://device-pics.firebaseapp.com/filters-sorted/" + reqFilter + "/devicevector-" + reqFilter + "-" + pack + ".json";
+                reqURLs.add(urlstr);
+            }
         } else if (reqFilter.equals("internal") || reqFilter.equals("external") || reqFilter.equals("ram")
                 || reqFilter.equals("selfiecam") || reqFilter.equals("maincam") || reqFilter.equals("battery")) {
             ArrayList<String> packs = More4Servlets.getFilterPacks(reqFilter, reqValue);
@@ -202,18 +239,20 @@ public class Filter extends HttpServlet {
             }
 
         } else if (reqFilter.equals("os")) {
+            String[] reqValues = reqValue.split(",");
+            for (int count = 0; count < reqValues.length; count++) {
+                if (reqValues[count].equals("android")) {
 
-            if (reqValue.equals("android")) {
+                    for (int i = 0; i <= 11; i++) {
+                        String pack = "pack-" + i;
+                        String urlstr = "https://device-pics.firebaseapp.com/filters-sorted/" + reqFilter + "/devicevector-android-" + pack + ".json";
+                        reqURLs.add(urlstr);
+                    }
 
-                for (int i = 0; i <= 11; i++) {
-                    String pack = "pack-" + i;
-                    String urlstr = "https://device-pics.firebaseapp.com/filters-sorted/" + reqFilter + "/devicevector-android-" + pack + ".json";
+                } else {
+                    String urlstr = "https://device-pics.firebaseapp.com/filters-sorted/" + reqFilter + "/devicevector-" + reqValues[count] + ".json";
                     reqURLs.add(urlstr);
                 }
-
-            } else {
-                String urlstr = "https://device-pics.firebaseapp.com/filters-sorted/" + reqFilter + "/devicevector-" + reqValue + ".json";
-                reqURLs.add(urlstr);
             }
         }
         return reqURLs;

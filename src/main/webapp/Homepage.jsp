@@ -54,8 +54,9 @@
                     <div id="main-body" class="column">
                         <div class="sortings row">
                             <div class="sort-by" align="center">Sort By :</div>
+                            <div class="relevance" align="center">Relevance</div>
                             <div class="popularity" align="center">Popularity</div>
-                            <div class="recommendation" align="center">Recommendation</div>
+                            <div class="recommendation" align="center">Recommendations</div>
                             <div class="filter-result">Filter Results : </div>
                             <div class="filter-result-count">000</div>
                             <div class="page-title">Page : </div>
