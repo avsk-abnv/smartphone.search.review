@@ -41,6 +41,10 @@
         <servlet-name>HomepageData</servlet-name>
         <servlet-class>com.controller.HomepageData</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchAjax</servlet-name>
+        <servlet-class>com.controller.SearchAjax</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Homepage</servlet-name>
         <url-pattern>/Homepage</url-pattern>
@@ -64,6 +68,10 @@
     <servlet-mapping>
         <servlet-name>HomepageData</servlet-name>
         <url-pattern>/HomepageData</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchAjax</servlet-name>
+        <url-pattern>/SearchAjax</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

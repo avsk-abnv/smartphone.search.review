@@ -15,7 +15,7 @@
             <input id="myInput" type="text" name="myCountry" placeholder="Search Devices">
         </div>
         <!--<input type="text" placeholder="Search devices" class="search-input" />-->
-        <div class="search-icon"><i style="color:black" class="fa fa-search fa-lg"></i></div>
+        <div class="search-icon"><i style="color: #626262;font-size: 18px;" class="fa fa-search fa-lg"></i></div>
     </div>
     <div class="login">Login or Sign up</div>
     <div class="about">About</div>

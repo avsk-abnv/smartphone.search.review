@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 public class HomepageData extends HttpServlet {
 
     public static JsonReader jsonReader = null;
-    public static ArrayList<String> home_deviceIDs;
+    public static ArrayList<String> home_deviceIDs=new ArrayList<>();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -38,7 +38,7 @@ public class HomepageData extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             int page = Integer.parseInt(request.getParameter("page").toString());
             System.out.println(page);
-            if (page == 1) {
+            if (page == 1 || home_deviceIDs.isEmpty()) {
                 home_deviceIDs = new ArrayList<>();
                 URL url = new URL("https://device-pics.firebaseapp.com/devicevector_sorted.json");
                 jsonReader = new JsonReader(new InputStreamReader(url.openStream()));
@@ -49,7 +49,7 @@ public class HomepageData extends HttpServlet {
             boolean exception = false;
             try {
                 Gson gson = new GsonBuilder().create();
-                System.out.println(jsonReader.hasNext());
+                //System.out.println(jsonReader.hasNext());
                 while (jsonReader.hasNext()) {
                     String model = jsonReader.nextName();
                     ArrayList<String> devarr = gson.fromJson(jsonReader.nextString(), ArrayList.class);

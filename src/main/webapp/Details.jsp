@@ -20,10 +20,12 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
         <style>
             <%@ include file="./css/style-details.css" %>
+            <%@ include file="./css/searchbox.css" %>
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
             <%@ include file="./js/script-init.js" %>
+                <%@ include file="./js/searchbox.js" %>
         </script>
     </head>
     <body style="margin:0px;">
