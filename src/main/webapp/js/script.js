@@ -41,15 +41,28 @@ $("#filters").ready(function () {
 
 });
 function tryApplying_hash(getHash) {
-    if (getHash.split("-").length === 1) {
+    if (getHash.split("-").length === 1 && getHash.split("_").length === 1) {
         var page = parseInt(getHash.split(":")[1]);
         setTimeout(function () {
-        if($('.grid-cols').length === 16){
-            getHomepageData(page);
-        } else {
-            tryGettingHomepageData();
-        }
-    }, 500);
+            if ($('.grid-cols').length === 16) {
+                getHomepageData(page);
+            } else {
+                tryGettingHomepageData();
+            }
+        }, 500);
+    } else if (getHash.split("_").length > 1) {
+        var searchval = getHash.split("_")[0].split("=")[1];
+        var page = parseInt(getHash.split("_")[1].split(":")[1]);
+        
+        setTimeout(function () {
+            if ($('#myInput').length === 1) {
+                console.log("hash applied");
+                document.getElementById("myInput").value = searchval.split("%20").join(" ");
+                getSearch_results(page);
+            } else {
+                tryApplying_hash(getHash);
+            }
+        }, 500);
     } else {
         setTimeout(function () {
             if ($('.filter-title-container span').text() !== "Filters Selected") {
@@ -151,7 +164,22 @@ function nextPage() {
 
             fetchFromDatabase("ping", no_data, pageNo * 16);
         }
-    } else if (window.location.hash.toString().split("-").length === 1) {
+    } else if (window.location.hash.toString().split("_").length > 1) {
+        currPage = window.location.hash.toString().split("_")[1];
+        var pageNo = parseInt(currPage.split(":")[1]);
+
+        var total_count = parseInt($(".filter-result-count").text().toString());
+        if (total_count - pageNo * 16 > 0 && $('.filter-result').text() === "Search Results : ") {
+            window.location.hash = window.location.hash.toString().split("_")[0] + "_page:" + (pageNo + 1);
+            var no_data = total_count - pageNo * 16;
+            $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
+            $('.img-container').css("display", "none");
+            $('.title').css("display", "none");
+            $('.loader-mask').css("display", "block");
+            $('.page-count').html((pageNo + 1) + "");
+            fetchFromDatabase("ping-search", no_data, pageNo * 16);
+        }
+    } else if (window.location.hash.toString().split("-").length === 1 && window.location.hash.toString().split("_").length === 1) {
         var pageNo = parseInt(window.location.hash.toString().split(":")[1]);
         if (pageNo * 16 < 5245)
             getHomepageData(pageNo + 1);
@@ -177,7 +205,22 @@ function prevPage() {
             $('.page-count').html((pageNo - 1) + "");
             fetchFromDatabase("ping", no_data, (pageNo - 2) * 16);
         }
-    } else if (window.location.hash.toString().split("-").length === 1) {
+    } else if (window.location.hash.toString().split("_").length > 1) {
+        currPage = window.location.hash.toString().split("_")[1];
+        var pageNo = parseInt(currPage.split(":")[1]);
+
+        var total_count = parseInt($(".filter-result-count").text().toString());
+        if (pageNo > 1 && $('.filter-result').text() === "Search Results : ") {
+            window.location.hash = window.location.hash.toString().split("_")[0] + "_page:" + (pageNo - 1);
+            var no_data = total_count - (pageNo - 2) * 16;
+            $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
+            $('.img-container').css("display", "none");
+            $('.title').css("display", "none");
+            $('.loader-mask').css("display", "block");
+            $('.page-count').html((pageNo - 1) + "");
+            fetchFromDatabase("ping-search", no_data, (pageNo - 2) * 16);
+        }
+    } else if (window.location.hash.toString().split("-").length === 1 && window.location.hash.toString().split("_").length === 1) {
         var pageNo = parseInt(window.location.hash.toString().split(":")[1]);
         if (pageNo > 1)
             getHomepageData(pageNo - 1);

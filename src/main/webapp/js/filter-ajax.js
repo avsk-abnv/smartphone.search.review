@@ -24,6 +24,7 @@ function sendAjaxRequest(sData, filterstring) {
             if (sData !== "get result")
                 $('.loader-mask .loading').html($.trim(data));
             else {
+                $('.filter-result').html("Filter Results : ");
                 $('.filter-result').css("visibility", "visible");
                 $('.filter-result-count').css("visibility", "visible");
                 $('.filter-result-count').html($.trim(data));
