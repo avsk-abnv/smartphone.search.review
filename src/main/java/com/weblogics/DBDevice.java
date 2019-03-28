@@ -14,6 +14,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import static com.accessObjects.Globals.*;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference.CompletionListener;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
@@ -37,7 +39,8 @@ import java.util.logging.Logger;
 public class DBDevice implements DBDeviceINTF {
 
     static Object deviceInfo = new HashMap<>();
-
+    Object data;
+    boolean success;
     public DBDevice() throws IOException {
         try {
             FirebaseApp.getInstance();
@@ -87,91 +90,85 @@ public class DBDevice implements DBDeviceINTF {
     }
 
     @Override
-    public ArrayList<String> filterByModelSubstring(String searchKey, int maxcount) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<String> filterByBrandName(String brand, int maxcount) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<String> filterByOS(String OS, int maxcount) {
-        JsonReader jsonReader = null;
-        ArrayList<String> deviceIDs = new ArrayList<>();
-        boolean exception = false;
+    public boolean setData(String ref, String newdata) {
+        DatabaseReference dref = FirebaseDatabase.getInstance().getReference();
+        success = true;
+        
+        cLatch = new CountDownLatch(1);
+        String refs[] = ref.split("/");
+        for(int i=0; i<refs.length; i++){
+            dref = dref.child(refs[i]);
+        }
+        dref.setValue(newdata, new CompletionListener(){
+            @Override
+            public void onComplete(DatabaseError de, DatabaseReference dr) {
+                cLatch.countDown();
+                success = true;
+            }
+        });
         try {
-            URL url = new URL("https://device-pics.firebaseapp.com/devicevector.json");
-            jsonReader = new JsonReader(new InputStreamReader(url.openStream()));
-            Map<String, ArrayList<String>> vector = new HashMap<>();
-            jsonReader.beginObject();
-            Gson gson = new GsonBuilder().create();
-            while (jsonReader.hasNext()) {
-                String model = jsonReader.nextName();
-                ArrayList<String> devarr = gson.fromJson(jsonReader.nextString(), ArrayList.class);
-                String brand = devarr.get(0);
-                if (devarr.get(VECTOR_INDEX.indexOf("android")).equals("100")) {
-                    String deviceID = brand + "%" + encode4Firebase(model);
-                    deviceIDs.add(deviceID);
-                    if (deviceIDs.size() >= 16) {
-                        break;
-                    }
-                }
+            cLatch.await();
+        } catch (InterruptedException ex) {
+            return false;
+        }        
+        return success;
+    }
 
-                if (deviceIDs.size() >= 16) {
-                    break;
-                }
-                //jsonReader.endObject();
-            }
-            if (!jsonReader.hasNext()) {
-                jsonReader.endObject();
+    @Override
+    public Object getData(String ref) {
+        DatabaseReference dref = FirebaseDatabase.getInstance().getReference();
+        
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot ds) {
+                //System.out.println(ds);
+                data = ds.getValue(Object.class);
+                cLatch.countDown();
             }
 
-            jsonReader.close();
-        } catch (MalformedURLException ex) {
-            exception = true;
-        } catch (IOException ex) {
-            exception = true;
-        } finally {
-            try {
-                if (!exception) {
-                    jsonReader.close();
-                }
-            } catch (IOException ex) {
-
+            @Override
+            public void onCancelled(DatabaseError de) {
+                data = "error"; //To change body of generated methods, choose Tools | Templates.
+                cLatch.countDown();
             }
+
+        };
+        cLatch = new CountDownLatch(1);
+        String refs[] = ref.split("/");
+        for(int i=0; i<refs.length; i++){
+            dref = dref.child(refs[i]);
         }
-        if (exception) {
-            deviceIDs.removeAll(deviceIDs);
-            deviceIDs.add("error");
+        dref.addValueEventListener(listener);
+        try {
+            cLatch.await();
+        } catch (InterruptedException ex) {
+            data = "error";
         }
-        return deviceIDs;
+        dref.removeEventListener(listener);
+        return data;
     }
 
     @Override
-    public ArrayList<String> filterByExtMemoryRange(double fromGB, double toGB, int maxcount) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<String> filterByIntMemoryRange(double fromGB, double toGB, int maxcount) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<String> filterByRAMRange(double fromGB, double toGB, int maxcount) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<String> filterByBatteryStrength(double from_mAh, double to_mAh, int maxcount) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<String> filterByCameraMegapixels(double fromMegaPX, double toMegaPX, int maxcount) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean remove(String ref) {
+        DatabaseReference dref = FirebaseDatabase.getInstance().getReference();
+        String refs[] = ref.split("/");
+        for(int i=0; i<refs.length; i++){
+            dref = dref.child(refs[i]);
+        }
+        cLatch = new CountDownLatch(1);
+        dref.removeValue(new CompletionListener(){
+            @Override
+            public void onComplete(DatabaseError de, DatabaseReference dr) {
+                cLatch.countDown();
+            }
+            
+        });
+        try {
+            cLatch.await();
+        } catch (InterruptedException ex) {
+            return false;
+        }
+        return true;
     }
 
 }

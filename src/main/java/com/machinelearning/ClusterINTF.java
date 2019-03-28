@@ -6,12 +6,13 @@
 package com.machinelearning;
 import com.accessObjects.*;
 import java.util.ArrayList;
+import java.util.Map;
 /**
  *
  * @author Abhishek Abhinav
  */
 
 public interface ClusterINTF {
-    ArrayList<ArrayList<Devicevector>> getCluster(ArrayList<Devicevector> devices, Devicevector deviceNode);
-    ArrayList<Devicevector> getNodesForCluster(ArrayList<Devicevector> devices);
+    ArrayList<Map<String,ArrayList<String>>> getCluster(Map<String,ArrayList<String>> devices, Devicevector deviceNode);
+    Map<String,ArrayList<String>> getNodesForCluster(Map<String,ArrayList<String>> devices);
 }

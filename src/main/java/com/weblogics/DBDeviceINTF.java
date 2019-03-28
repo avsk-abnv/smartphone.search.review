@@ -12,12 +12,7 @@ import java.util.ArrayList;
  */
 public interface DBDeviceINTF {
     Device getByDeviceID(String deviceID);
-    ArrayList<String> filterByModelSubstring(String searchKey,int maxcount);
-    ArrayList<String> filterByBrandName(String brand,int maxcount);
-    ArrayList<String> filterByOS(String OS,int maxcount);
-    ArrayList<String> filterByExtMemoryRange(double fromGB,double toGB,int maxcount);
-    ArrayList<String> filterByIntMemoryRange(double fromGB,double toGB,int maxcount);
-    ArrayList<String> filterByRAMRange(double fromGB,double toGB,int maxcount);
-    ArrayList<String> filterByBatteryStrength(double from_mAh,double to_mAh,int maxcount);
-    ArrayList<String> filterByCameraMegapixels(double fromMegaPX,double toMegaPX,int maxcount);
+    boolean setData(String ref, String newdata);
+    boolean remove(String ref);
+    Object getData(String ref);
 }
