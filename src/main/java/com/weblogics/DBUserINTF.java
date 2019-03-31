@@ -5,12 +5,13 @@
  */
 package com.weblogics;
 import com.accessObjects.*;
+import java.io.IOException;
 /**
  *
  * @author Abhishek Abhinav
  */
 public interface DBUserINTF {
-    String registerUser(User user);
-    boolean authenticateUser(String username, String password);
-    boolean updateUserInfo(User user);
+    String registerUser(User user) throws IOException;
+    boolean authenticateUser(String username, String password) throws IOException;
+    boolean updateUserInfo(User user) throws IOException;
 }
