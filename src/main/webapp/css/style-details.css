@@ -299,3 +299,35 @@ div.selfiecamera,div.ram,div.os,div.maincamera,div.internal,div.battery{
 .dislike i{
     color: maroon;
 }
+.heading{
+    width: 65%;
+    padding: 8px 20px;
+    height: 40px;
+    color: white;
+    font-size: 15px;
+    border: 1px solid #5788e2;
+    background: #5788e2;
+}
+.sub-heading{
+    width: 65%;
+    font-size: 15px;
+    border: 1px solid #5788e2;
+}
+.sub-heading-title{
+    display: block;
+    float: left;
+    height: 40px;
+    padding-right: 20px;
+    padding-top: 7px;
+    /* border-right: 2px solid #1bcf39; */
+    background: linear-gradient(to right,white,#6dffa7);
+    width: 200px;
+}
+.sub-heading-value{
+    display: block;
+    min-height: 40px;
+    margin-left: 200px;
+    padding-top: 7px;
+    padding-left: 20px;
+    background: linear-gradient(to left,white,#b5b5b5);
+}

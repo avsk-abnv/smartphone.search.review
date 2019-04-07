@@ -25,7 +25,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
             <%@ include file="./js/script-init.js" %>
-                <%@ include file="./js/searchbox.js" %>
+            <%@ include file="./js/searchbox.js" %>
         </script>
     </head>
     <body style="margin:0px;">
@@ -104,6 +104,29 @@
                             <div class="dislikecount">75</div>
                         </div>
                     </div>
+                    <br>
+                    <div class="column">
+                        <%for (String key : device.info.keySet()) {%>
+                        <%if (!key.equals("imageURL")) {%>
+                        <div class="heading" align="left"><%=key%></div>
+
+                        <%for (String subkey : device.info.get(key).keySet()) {%>
+                        <%if (device.info.get(key).get(subkey).length() != 0) {%>
+                        <div class="sub-heading" align="left">
+
+                            <%if (subkey.equals("null")) {%>
+                            <span class="sub-heading-title" align="right"></span>
+                            <%} else {%>
+                            <span class="sub-heading-title" align="right"><%=subkey%>  </span>
+                            <%}%>
+                            <span class="sub-heading-value"><%=device.info.get(key).get(subkey)%></span>
+
+                        </div>
+                        <%}%>
+                        <%}%>
+                        <%}%>
+                        <%}%>
+                    </div>
                 </center>
             </div>
         </div>
@@ -114,12 +137,25 @@
         document.querySelector(".popularity").style.width = document.querySelector("table").offsetWidth * 0.87 + "px";
         var fontsize = 20.0;
         while (true) {
-            if($('.container-left').eq(2).children().eq(1).height()===$('.container-left').eq(2).height()){
-                break;
-            } else {
-                $('.container-left').eq(2).css("font-size",fontsize+"px");
-            }
-            fontsize = fontsize - 0.5;
+            
+                if ($('.container-left').eq(2).children().eq(1).height() === $('.container-left').eq(2).height()) {
+                    break;
+                } else {
+                    $('.container-left').eq(2).css("font-size", fontsize + "px");
+                }
+                fontsize = fontsize - 0.5;
+            
+        }
+        while (true) {
+         
+                if (document.querySelectorAll(".sub-heading-title").length > 0) {
+                    for (let i = 0; i < document.querySelectorAll(".sub-heading-title").length; i++) {
+                        document.querySelectorAll(".sub-heading-title")[i].style.height = document.querySelectorAll(".sub-heading-value")[i].offsetHeight + "px";
+                    }
+                    break;
+                }
+         
+
         }
     </script>
 </html>
