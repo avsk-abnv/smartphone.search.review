@@ -49,13 +49,26 @@ function fetchFromDatabase(sData, no_data, timesCalled) {
             var brand = $.trim(response).split(",")[0];
             var title = $.trim(response).split(",")[1];
             var imageURL = $.trim(response).split(",")[2];
-            console.log("title: " + title + ",imageURL: " + imageURL);
+            var price = $.trim(response).split(",")[3];
+            console.log("title: " + title + ",imageURL: " + imageURL + ",price: "+price);
             $('.thumbnails').eq(timesCalled % 16).attr("src", imageURL);
             $('.title').eq(timesCalled % 16).html(title);
             $('.img-container').eq(timesCalled % 16).css("display", "block");
             $('.img-container').eq(timesCalled % 16).parent().attr("data-brand", brand);
             $('.title').eq(timesCalled % 16).css("display", "block");
-
+            $('.price').eq(timesCalled % 16).css("display", "block");
+            $('.likedislike').eq(timesCalled % 16).css("display", "block");
+            $('.price span').eq(timesCalled % 16).html(price);
+            $('.title').eq(timesCalled % 16).attr("data-brand",brand);
+            if($('.compare-click').text()==="Cancel"){
+                $('.container-body').eq(timesCalled % 16).css("display", "block");
+                $('.container-body input').eq(timesCalled % 16).prop("checked",false);
+                $('.grid-cols').eq(timesCalled % 16).css("border","1px solid transparent");
+            } else{
+                $('.container-body').eq(timesCalled % 16).css("display", "none");
+                $('.container-body input').eq(timesCalled % 16).prop("checked",false);
+                $('.grid-cols').eq(timesCalled % 16).css("border","1px solid transparent");
+            }
             console.log("no_data: " + no_data + ",total_data: " + total_data);
             if (timesCalled % 16 < total_data) {
                 timesCalled++;

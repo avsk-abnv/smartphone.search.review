@@ -26,12 +26,12 @@
     <div id="compare-container" class="row">
         <div class="compare-click" align="center" onclick="compareclick();">Click to Compare :</div>
         <div class="compare-a">
-            <div align="center" class="model-container"></div>
+            <div align="center" data-brand="unknown" class="model-container"></div>
         </div>
         <span id="versus">Vs</span>
         <div class="compare-b">
-            <div align="center" class="model-container"></div>
+            <div align="center" data-brand="unknown" class="model-container"></div>
         </div>
-        <div id="apply-cancel" align="center">Apply</div>
+        <div id="apply-cancel" align="center" onclick="comparison();">Apply</div>
     </div>
 </div>

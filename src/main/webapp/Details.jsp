@@ -105,6 +105,7 @@
                         </div>
                     </div>
                     <br>
+                    <div style="width:65%;" align="right">Source : <span style="color:green;"><%=dev.getData("Brand_Source/"+device.brand).toString()%></span></div>
                     <div class="column">
                         <%for (String key : device.info.keySet()) {%>
                         <%if (!key.equals("imageURL")) {%>

@@ -167,6 +167,8 @@ function getSearch_results(page) {
                     $('.loader-mask .loading').html("Fetching Data... 0/" + total_data);
                     $('.img-container').css("display", "none");
                     $('.title').css("display", "none");
+                    $('.likedislike').css("display", "none");
+                    $('.price').css("display", "none");
                     fetchFromDatabase("ping-search", parseInt($.trim(data)), (pageNo - 1) * 16);
                 }
             }

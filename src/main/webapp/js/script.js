@@ -53,7 +53,7 @@ function tryApplying_hash(getHash) {
     } else if (getHash.split("_").length > 1) {
         var searchval = getHash.split("_")[0].split("=")[1];
         var page = parseInt(getHash.split("_")[1].split(":")[1]);
-        
+
         setTimeout(function () {
             if ($('#myInput').length === 1) {
                 console.log("hash applied");
@@ -159,6 +159,8 @@ function nextPage() {
             $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
             $('.img-container').css("display", "none");
             $('.title').css("display", "none");
+            $('.likedislike').css("display", "none");
+            $('.price').css("display", "none");
             $('.loader-mask').css("display", "block");
             $('.page-count').html((pageNo + 1) + "");
 
@@ -175,6 +177,8 @@ function nextPage() {
             $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
             $('.img-container').css("display", "none");
             $('.title').css("display", "none");
+            $('.likedislike').css("display", "none");
+            $('.price').css("display", "none");
             $('.loader-mask').css("display", "block");
             $('.page-count').html((pageNo + 1) + "");
             fetchFromDatabase("ping-search", no_data, pageNo * 16);
@@ -201,6 +205,8 @@ function prevPage() {
             $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
             $('.img-container').css("display", "none");
             $('.title').css("display", "none");
+            $('.likedislike').css("display", "none");
+            $('.price').css("display", "none");
             $('.loader-mask').css("display", "block");
             $('.page-count').html((pageNo - 1) + "");
             fetchFromDatabase("ping", no_data, (pageNo - 2) * 16);
@@ -216,6 +222,8 @@ function prevPage() {
             $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
             $('.img-container').css("display", "none");
             $('.title').css("display", "none");
+            $('.likedislike').css("display", "none");
+            $('.price').css("display", "none");
             $('.loader-mask').css("display", "block");
             $('.page-count').html((pageNo - 1) + "");
             fetchFromDatabase("ping-search", no_data, (pageNo - 2) * 16);

@@ -20,6 +20,8 @@ public class Test {
         String lastName="Kumar";
         String email="abhishek%kumar@gmail%com";
         String password="password";
+        //boolean success = db.setData("Clusters_Mapping","test");
+        //System.out.println(success);
         /*try
         {
             String data=db.getData("Users/"+email).toString();

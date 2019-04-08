@@ -34,6 +34,8 @@ function sendAjaxRequest(sData, filterstring) {
                 $('.loader-mask .loading').html("Fetching Data... 0/" + (total_data + 1));
                 $('.img-container').css("display", "none");
                 $('.title').css("display", "none");
+                $('.likedislike').css("display", "none");
+                $('.price').css("display", "none");
                 if (parseInt($.trim(data)) > 0) {
                     var currPage;
                     if (window.location.hash === "")

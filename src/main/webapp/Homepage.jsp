@@ -27,6 +27,7 @@
             <%@ include file="./css/checkbox-body.css" %>
             <%@ include file="./css/loader.css" %>
             <%@ include file="./css/searchbox.css" %>
+            <%@ include file="./css/comparison.css" %>
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
@@ -52,6 +53,7 @@
                     <div id="filters"></div>
                 </div>
                 <div id="main-col" class="column">
+                    <div id="compare-body"></div>
                     <div id="main-body" class="column">
                         <div class="sortings row">
                             <div class="sort-by" align="center">Sort By :</div>
@@ -74,11 +76,25 @@
                                 <div class="img-container" onclick="showdetails(this.parentElement);" align="center">
                                     <img class="thumbnails" src="https://device-pics.firebaseapp.com/noimage.png" alt="no image found" onerror="this.src = 'https://device-pics.firebaseapp.com/noimage.png';"/>
                                 </div>
-                                <label class="container-body">
+                                <div class="likedislike">
+                                    <div class="like" align="left">
+                                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                        <br>
+                                        <span class="like-count">57</span>
+                                    </div>
+                                    <div class="dislike" align="right">
+                                        <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                                        <br>
+                                        <span class="dislike-count">17</span>
+                                    </div>
+                                </div>
+                                <label class="container-body" style="margin-top:-20px;">
                                     <input onclick="select_me(this.parentElement.parentElement);" type="checkbox">
                                     <span class="checkmark-body"></span>
                                 </label>
-                                <h6 class="title" onclick="showdetails(this.parentElement);">Loading...</h6>
+                                <h6 class="title" onclick="showdetails(this.parentElement);" data-brand="unknown">Loading...</h6>
+                                <div align="center" class="price">Price : <span style="color:green;font-weight: bold;">&#8377; 0000</span></div>
+                                
                             </div>
                             <%}%>
                         </div>

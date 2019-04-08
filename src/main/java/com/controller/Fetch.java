@@ -42,8 +42,9 @@ public class Fetch extends HttpServlet {
                     //sortedBy_Feature = More4Servlets.sortBy_Feature(Filter.filter_DeviceIDs, Filter.traversedData);
                 String brand = sortedBy_Feature.get(index).split("%")[0];
                 String model = sortedBy_Feature.get(index).split("%")[1];
+                String price = db.getData("devices/"+brand+"/"+model+"/Misc/Price").toString().split(" ")[1];
                 Device device = db.getByDeviceID(brand+"%"+encode4Firebase(model));
-                out.println(device.brand+","+model.replace("_dot_",".")+","+device.info.get("imageURL").get("main").replace("_dot_", "."));
+                out.println(device.brand+","+model.replace("_dot_",".")+","+device.info.get("imageURL").get("main").replace("_dot_", ".")+",&#8377; "+price);
             }
         }
     }
