@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public interface DBDeviceINTF {
     Device getByDeviceID(String deviceID);
-    boolean setData(String ref, String newdata);
+    boolean setData(String ref, Object newdata);
     boolean remove(String ref);
     Object getData(String ref);
 }

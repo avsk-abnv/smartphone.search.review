@@ -13,6 +13,5 @@ import java.util.Map;
  */
 
 public interface ClusterINTF {
-    ArrayList<Map<String,ArrayList<String>>> getCluster(Map<String,ArrayList<String>> devices, Devicevector deviceNode);
-    Map<String,ArrayList<String>> getNodesForCluster(Map<String,ArrayList<String>> devices);
+    
 }

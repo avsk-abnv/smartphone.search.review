@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author Abhishek Abhinav
  */
 public interface DBUserINTF {
-    String registerUser(User user) throws IOException;
-    boolean authenticateUser(String username, String password) throws IOException;
+    String registerUser(User user,String email) throws IOException;
+    String authenticateUser(String username, String password) throws IOException;
     boolean updateUserInfo(User user) throws IOException;
 }

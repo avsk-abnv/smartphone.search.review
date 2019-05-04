@@ -20,7 +20,10 @@ public class Test {
         String lastName="Kumar";
         String email="abhishek%kumar@gmail%com";
         String password="password";
-        //boolean success = db.setData("Clusters_Mapping","test");
+        //String data=db.getData("Users/sourceofdesire@gmail%com/liked-dislike/coca-cola").toString();
+        //System.out.println(data);
+        //boolean success=db.setData("Metadata/test","0");
+        //System.out.println(success);
         //System.out.println(success);
         /*try
         {

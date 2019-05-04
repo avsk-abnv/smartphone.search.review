@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <script>
     <%@ include file="./js/searchbox.js" %>
+    <%@ include file="./js/register-login.js" %>
 </script>
 <div id="navbar" class="row">
     <div class="logo"><div id="logo-design"onclick="openHomepage();">Smartphone Search & Review</div></div>
@@ -17,9 +18,9 @@
         <!--<input type="text" placeholder="Search devices" class="search-input" />-->
         <div class="search-icon" onclick="getSearch_results(1);"><i style="color: #626262;font-size: 18px;" class="fa fa-search fa-lg"></i></div>
     </div>
-    <div class="login">Login or Sign up</div>
-    <div class="about">About</div>
-    <div class="contact">Contact us</div>
+    <div class="login" onclick="popuplogin();">Login or Sign up</div>
+    <div class="about fullname">About</div>
+    <div class="contact logout">Contact us</div>
 </div>
 <div id="compare" class="row">
     <div id="compare-spacing" class="row" style="height:40px;width:22%;background:transparent;margin:0px;"></div>

@@ -8,7 +8,6 @@ package com.controller;
 import com.accessObjects.Device;
 import static com.accessObjects.Globals.encode4Firebase;
 import com.weblogics.DBDevice;
-import com.weblogics.More4Servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -43,8 +43,21 @@ public class Fetch extends HttpServlet {
                 String brand = sortedBy_Feature.get(index).split("%")[0];
                 String model = sortedBy_Feature.get(index).split("%")[1];
                 String price = db.getData("devices/"+brand+"/"+model+"/Misc/Price").toString().split(" ")[1];
+                String likes = db.getData("Metadata/"+brand+"/"+model+"/likes").toString();
+                String dislikes = db.getData("Metadata/"+brand+"/"+model+"/dislikes").toString();
                 Device device = db.getByDeviceID(brand+"%"+encode4Firebase(model));
-                out.println(device.brand+","+model.replace("_dot_",".")+","+device.info.get("imageURL").get("main").replace("_dot_", ".")+",&#8377; "+price);
+                String toPrint1 = device.brand+","+model.replace("_dot_",".")+","+device.info.get("imageURL").get("main").replace("_dot_", ".")+",&#8377; "+price+","+likes+","+dislikes;
+                HttpSession session = request.getSession();
+                String toPrint2 ="";
+                if(!session.getAttribute("username").equals("null")){
+                    String username = session.getAttribute("username").toString();
+                    String interaction = db.getData("Users/"+username.replace(".","%")+"/like_dislike/"+brand+"%"+encode4Firebase(model)).toString();
+                    if(!interaction.equals("error")){
+                        toPrint2 += "~"+interaction;
+                    }
+                }
+                
+                out.println(toPrint1+toPrint2);
             }
         }
     }

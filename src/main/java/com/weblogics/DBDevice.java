@@ -90,7 +90,7 @@ public class DBDevice implements DBDeviceINTF {
     }
 
     @Override
-    public boolean setData(String ref, String newdata) {
+    public boolean setData(String ref, Object newdata) {
         DatabaseReference dref = FirebaseDatabase.getInstance().getReference();
         success = true;
         
@@ -99,6 +99,7 @@ public class DBDevice implements DBDeviceINTF {
         for(int i=0; i<refs.length; i++){
             dref = dref.child(refs[i]);
         }
+        
         dref.setValue(newdata, new CompletionListener(){
             @Override
             public void onComplete(DatabaseError de, DatabaseReference dr) {
@@ -138,10 +139,15 @@ public class DBDevice implements DBDeviceINTF {
         for(int i=0; i<refs.length; i++){
             dref = dref.child(refs[i]);
         }
-        dref.addValueEventListener(listener);
+        
+        
         try {
+            dref.addValueEventListener(listener);
             cLatch.await();
+            String something = data.toString();
         } catch (InterruptedException ex) {
+            data = "error";
+        } catch (Exception ex){
             data = "error";
         }
         dref.removeEventListener(listener);

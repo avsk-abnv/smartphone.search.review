@@ -28,16 +28,26 @@
             <%@ include file="./css/loader.css" %>
             <%@ include file="./css/searchbox.css" %>
             <%@ include file="./css/comparison.css" %>
+            <%@ include file="./css/register-login.css" %>
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
             <%@ include file="./js/script-init.js" %>
             <%@ include file="./js/script-filters.js" %>
             <%@ include file="./js/homepage-ajax.js" %>
+            <%@ include file="./js/like-dislike.js" %>
         </script>
 
     </head>
-    <body style="margin:0px;">
+    <%
+        String username = request.getSession().getAttribute("username").toString();
+        String name = "null";
+        if(!username.equals("null")){
+            DBDevice db = new DBDevice();
+            name = db.getData("Users/"+username.replace(".", "%")+"/name").toString();
+        }
+    %>
+    <body style="margin:0px;" loggedin="<%=username%>" name="<%=name%>">
         <div class="mask"></div>
         <div class='loader-mask' align="center">
             <div class="lds-dual-ring"></div>
@@ -52,6 +62,8 @@
                     <div class="filters column">yoyo</div>
                     <div id="filters"></div>
                 </div>
+                <div class="full-mask"></div>
+                <div class="popup-login"></div>
                 <div id="main-col" class="column">
                     <div id="compare-body"></div>
                     <div id="main-body" class="column">
@@ -68,6 +80,7 @@
                         <%
                             //ArrayList<String> deviceIDs = (ArrayList)request.getAttribute("deviceIDs");
                             ArrayList<ArrayList<Device>> devices = (ArrayList) request.getAttribute("devices");
+                            int index=0;
                             for (ArrayList<Device> deviceRow : devices) {
                         %>
                         <div class="grid-row row">
@@ -78,12 +91,12 @@
                                 </div>
                                 <div class="likedislike">
                                     <div class="like" align="left">
-                                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                        <i class="fa fa-thumbs-up" onclick="click_like(<%=index%>,this.parentElement.parentElement.parentElement.getAttribute('data-brand')+'%'+this.parentElement.parentElement.parentElement.children[3].innerHTML);" aria-hidden="true"></i>
                                         <br>
                                         <span class="like-count">57</span>
                                     </div>
                                     <div class="dislike" align="right">
-                                        <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                                        <i class="fa fa-thumbs-down" onclick="click_dislike(<%=index%>,this.parentElement.parentElement.parentElement.getAttribute('data-brand')+'%'+this.parentElement.parentElement.parentElement.children[3].innerHTML);" aria-hidden="true"></i>
                                         <br>
                                         <span class="dislike-count">17</span>
                                     </div>
@@ -96,7 +109,9 @@
                                 <div align="center" class="price">Price : <span style="color:green;font-weight: bold;">&#8377; 0000</span></div>
                                 
                             </div>
-                            <%}%>
+                            <%  index++;
+                              }
+                            %>
                         </div>
                         <%
                             }

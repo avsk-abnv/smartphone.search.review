@@ -49,6 +49,22 @@
         <servlet-name>SearchResult</servlet-name>
         <servlet-class>com.controller.SearchResult</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Authenticate</servlet-name>
+        <servlet-class>com.controller.Authenticate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Authenticated</servlet-name>
+        <servlet-class>com.controller.Authenticated</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>com.controller.Logout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LikeDislike</servlet-name>
+        <servlet-class>com.controller.LikeDislike</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Homepage</servlet-name>
         <url-pattern>/Homepage</url-pattern>
@@ -81,9 +97,25 @@
         <servlet-name>SearchResult</servlet-name>
         <url-pattern>/SearchResult</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Authenticate</servlet-name>
+        <url-pattern>/Authenticate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Authenticated</servlet-name>
+        <url-pattern>/Authenticated</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LikeDislike</servlet-name>
+        <url-pattern>/LikeDislike</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            -1
         </session-timeout>
     </session-config>
 </web-app>

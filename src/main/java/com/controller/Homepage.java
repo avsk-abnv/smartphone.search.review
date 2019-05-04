@@ -49,7 +49,7 @@ public class Homepage extends HttpServlet {
         ArrayList<ArrayList<Device>> devices = new ArrayList<>();
         ArrayList<Device> devRow = new ArrayList<>();
         int count = 0;
-        for (int i=0; i<16; i++) {
+        for (int i = 0; i < 16; i++) {
             Device device = new Device();
             devRow.add(device);
             if (devRow.size() == 4) {
@@ -62,6 +62,17 @@ public class Homepage extends HttpServlet {
             }
         }
         request.setAttribute("devices", devices);
+        try {
+            String username = request.getSession().getAttribute("username").toString();
+            System.out.println(username);
+            if(username.equals("null")){
+                request.getSession().setAttribute("username", "null");
+            }
+        } catch (Exception ex) {
+            
+            request.getSession().setAttribute("username", "null");
+        }
+
         RequestDispatcher rd = request.getRequestDispatcher("Homepage.jsp");
         rd.forward(request, response);
     }
