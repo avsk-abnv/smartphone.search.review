@@ -65,6 +65,10 @@
         <servlet-name>LikeDislike</servlet-name>
         <servlet-class>com.controller.LikeDislike</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Comment</servlet-name>
+        <servlet-class>com.controller.Comment</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Homepage</servlet-name>
         <url-pattern>/Homepage</url-pattern>
@@ -112,6 +116,10 @@
     <servlet-mapping>
         <servlet-name>LikeDislike</servlet-name>
         <url-pattern>/LikeDislike</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Comment</servlet-name>
+        <url-pattern>/Comment</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

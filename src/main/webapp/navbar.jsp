@@ -5,10 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<script>
-    <%@ include file="./js/searchbox.js" %>
-    <%@ include file="./js/register-login.js" %>
-</script>
+
 <div id="navbar" class="row">
     <div class="logo"><div id="logo-design"onclick="openHomepage();">Smartphone Search & Review</div></div>
     <div class="search-box row">
@@ -36,3 +33,7 @@
         <div id="apply-cancel" align="center" onclick="comparison();">Apply</div>
     </div>
 </div>
+<script>
+    <%@ include file="./js/register-login.js" %>
+    <%@ include file="./js/searchbox.js" %>
+</script>

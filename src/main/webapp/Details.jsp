@@ -21,14 +21,24 @@
         <style>
             <%@ include file="./css/style-details.css" %>
             <%@ include file="./css/searchbox.css" %>
+            <%@ include file="./css/register-login.css" %>
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script>
             <%@ include file="./js/script-init.js" %>
             <%@ include file="./js/searchbox.js" %>
+            <%@ include file="./js/comments.js" %>
         </script>
     </head>
-    <body style="margin:0px;">
+    <%
+        String username = request.getSession().getAttribute("username").toString();
+        String name = "null";
+        if (!username.equals("null")) {
+            DBDevice db = new DBDevice();
+            name = db.getData("Users/" + username.replace(".", "%") + "/name").toString();
+        }
+    %>
+    <body style="margin:0px;" loggedin="<%=username%>" name="<%=name%>">
         <div class="mask"></div>
         <div id="middle">
             <div id="mask-navbar"></div>
@@ -50,6 +60,8 @@
                     }
                     GetFeature gft = new GetFeature();
                 %>
+                <div class="full-mask"></div>
+                <div class="popup-login"></div>
                 <center>
                     <table class="shortdetails">
                         <tr>
@@ -97,7 +109,7 @@
                             <div class="likecount">2575</div>
                         </div>
                         <div class="left-triangle" style="float:left;"></div>
-                        <div class="title"><%=device.model%></div>
+                        <div class="title" data-brand="<%=device.brand%>"><%=device.model%></div>
                         <div class="right-triangle"></div>
                         <div class="dislike">
                             <i class="fa fa-thumbs-down" aria-hidden="true"></i>
@@ -105,7 +117,7 @@
                         </div>
                     </div>
                     <br>
-                    <div style="width:65%;" align="right">Source : <span style="color:green;"><%=dev.getData("Brand_Source/"+device.brand).toString()%></span></div>
+                    <div style="width:65%;" align="right">Source : <span style="color:green;"><%=dev.getData("Brand_Source/" + device.brand).toString()%></span></div>
                     <div class="column">
                         <%for (String key : device.info.keySet()) {%>
                         <%if (!key.equals("imageURL")) {%>
@@ -128,6 +140,17 @@
                         <%}%>
                         <%}%>
                     </div>
+                    <div class="comment-container">
+                        <textarea class="comment" placeholder="Write a comment..."></textarea>
+                        <div class="add-comment" onclick="addcomment(document.querySelector('.comment').value);">Add</div>
+                        
+                        <!--<span class="commented-by">Someone</span>
+                        <div class="talk-bubble tri-right left-top comment-text-container">
+                            <div class="talktext">
+                                <p class="comment-text">This one adds a right triangle on the left, This one adds a right triangle on the left, flush at the top by using .tri-right and .left-top to specify the location.</p>
+                            </div>
+                        </div>-->
+                    </div>
                 </center>
             </div>
         </div>
@@ -138,25 +161,26 @@
         document.querySelector(".popularity").style.width = document.querySelector("table").offsetWidth * 0.87 + "px";
         var fontsize = 20.0;
         while (true) {
-            
-                if ($('.container-left').eq(2).children().eq(1).height() === $('.container-left').eq(2).height()) {
-                    break;
-                } else {
-                    $('.container-left').eq(2).css("font-size", fontsize + "px");
-                }
-                fontsize = fontsize - 0.5;
-            
-        }
-        while (true) {
-         
-                if (document.querySelectorAll(".sub-heading-title").length > 0) {
-                    for (let i = 0; i < document.querySelectorAll(".sub-heading-title").length; i++) {
-                        document.querySelectorAll(".sub-heading-title")[i].style.height = document.querySelectorAll(".sub-heading-value")[i].offsetHeight + "px";
-                    }
-                    break;
-                }
-         
+
+            if ($('.container-left').eq(2).children().eq(1).height() === $('.container-left').eq(2).height()) {
+                break;
+            } else {
+                $('.container-left').eq(2).css("font-size", fontsize + "px");
+            }
+            fontsize = fontsize - 0.5;
 
         }
+        while (true) {
+
+            if (document.querySelectorAll(".sub-heading-title").length > 0) {
+                for (let i = 0; i < document.querySelectorAll(".sub-heading-title").length; i++) {
+                    document.querySelectorAll(".sub-heading-title")[i].style.height = document.querySelectorAll(".sub-heading-value")[i].offsetHeight + "px";
+                }
+                break;
+            }
+
+
+        }
+        
     </script>
 </html>

@@ -42,9 +42,9 @@
     <%
         String username = request.getSession().getAttribute("username").toString();
         String name = "null";
-        if(!username.equals("null")){
+        if (!username.equals("null")) {
             DBDevice db = new DBDevice();
-            name = db.getData("Users/"+username.replace(".", "%")+"/name").toString();
+            name = db.getData("Users/" + username.replace(".", "%") + "/name").toString();
         }
     %>
     <body style="margin:0px;" loggedin="<%=username%>" name="<%=name%>">
@@ -80,7 +80,7 @@
                         <%
                             //ArrayList<String> deviceIDs = (ArrayList)request.getAttribute("deviceIDs");
                             ArrayList<ArrayList<Device>> devices = (ArrayList) request.getAttribute("devices");
-                            int index=0;
+                            int index = 0;
                             for (ArrayList<Device> deviceRow : devices) {
                         %>
                         <div class="grid-row row">
@@ -91,12 +91,12 @@
                                 </div>
                                 <div class="likedislike">
                                     <div class="like" align="left">
-                                        <i class="fa fa-thumbs-up" onclick="click_like(<%=index%>,this.parentElement.parentElement.parentElement.getAttribute('data-brand')+'%'+this.parentElement.parentElement.parentElement.children[3].innerHTML);" aria-hidden="true"></i>
+                                        <i class="fa fa-thumbs-up" onclick="click_like(<%=index%>, this.parentElement.parentElement.parentElement.getAttribute('data-brand') + '%' + this.parentElement.parentElement.parentElement.children[3].innerHTML);" aria-hidden="true"></i>
                                         <br>
                                         <span class="like-count">57</span>
                                     </div>
                                     <div class="dislike" align="right">
-                                        <i class="fa fa-thumbs-down" onclick="click_dislike(<%=index%>,this.parentElement.parentElement.parentElement.getAttribute('data-brand')+'%'+this.parentElement.parentElement.parentElement.children[3].innerHTML);" aria-hidden="true"></i>
+                                        <i class="fa fa-thumbs-down" onclick="click_dislike(<%=index%>, this.parentElement.parentElement.parentElement.getAttribute('data-brand') + '%' + this.parentElement.parentElement.parentElement.children[3].innerHTML);" aria-hidden="true"></i>
                                         <br>
                                         <span class="dislike-count">17</span>
                                     </div>
@@ -107,10 +107,10 @@
                                 </label>
                                 <h6 class="title" onclick="showdetails(this.parentElement);" data-brand="unknown">Loading...</h6>
                                 <div align="center" class="price">Price : <span style="color:green;font-weight: bold;">&#8377; 0000</span></div>
-                                
+
                             </div>
                             <%  index++;
-                              }
+                                }
                             %>
                         </div>
                         <%
@@ -129,6 +129,9 @@
     </body>
     <script>
         <%@ include file="./js/script.js" %>
+        
+        <%@ include file="./js/comments.js" %>
+        
     </script>
     <noscript>Your browser does not support JavaScript</noscript>
 </html>

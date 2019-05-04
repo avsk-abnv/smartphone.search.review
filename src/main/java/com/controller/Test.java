@@ -22,7 +22,7 @@ public class Test {
         String password="password";
         //String data=db.getData("Users/sourceofdesire@gmail%com/liked-dislike/coca-cola").toString();
         //System.out.println(data);
-        //boolean success=db.setData("Metadata/test","0");
+        //boolean success=db.setData("Comments/test","0");
         //System.out.println(success);
         //System.out.println(success);
         /*try

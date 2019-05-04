@@ -2,6 +2,11 @@ function openHomepage(){
     window.location.href = window.location.href.substring(0,window.location.href.indexOf("Homepage"))+"Homepage";
 }
 
+$(document).ready(function(e){
+    if(!$('.grid-cols').children().length>0){
+        trygettingcomments();
+    }
+});
 function showbrands(){
     var $brand_div = $("#all-brand-names");
     $brand_div.css("display","block");
