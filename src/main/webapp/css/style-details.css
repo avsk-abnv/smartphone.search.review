@@ -191,6 +191,20 @@ body{
     padding: 10px 0px;
     cursor: pointer;
 }
+.like-count{
+    font-size: 0.9rem;
+    color:slategrey;
+}
+.dislike-container{
+    width: 50%;
+}
+.dislike-icon{
+
+}
+.dislike-count{
+    font-size: 0.9rem;
+    color:slategrey;
+}
 .search-input{
     width: 85%;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,.23);
@@ -315,12 +329,19 @@ div.selfiecamera,div.ram,div.os,div.maincamera,div.internal,div.battery{
     width: 40px;
     height: 40px;
     font-size: 15px;
+    cursor: pointer;
 }
-.like i{
-    color: green;
+.like i,.dislike i{
+    color: #929292;
+    background: transparent;
+    padding: 5px;
+    border-radius: 15px;
+    cursor: pointer;
 }
-.dislike i{
-    color: maroon;
+.like i:hover,.dislike i:hover{
+    background: #e5f1f6;
+    padding: 5px;
+    border-radius: 15px;
 }
 .heading{
     width: 65%;

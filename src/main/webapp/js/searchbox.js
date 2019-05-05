@@ -147,31 +147,37 @@ function getSearch_results(page) {
     if (val.length > 0) {
         $('.loader-mask').css("display", "block");
         $('.loader-mask .loading').html("Loading...");
-        window.location.hash = "search=" + val + "_page:"+page;
-        $('.page-count').html(page + "");
-        $('.filter-result').html("Search Results : ");
-        $.ajax({
-            type: 'POST',
-            url: "/Smartphone.search.review/SearchResult",
-            data: {request: "ping", value: val},
-            success: function (data) {
-                console.log($.trim(data));
-                if (parseInt($.trim(data)) > 0) {
-                    var pageNo = page;
-                    var total_data = 16;
-                    if (parseInt($.trim(data)) < total_data)
-                        total_data = parseInt($.trim(data));
-                    $('.filter-result').css("visibility", "visible");
-                    $('.filter-result-count').css("visibility", "visible");
-                    $('.filter-result-count').html($.trim(data));
-                    $('.loader-mask .loading').html("Fetching Data... 0/" + total_data);
-                    $('.img-container').css("display", "none");
-                    $('.title').css("display", "none");
-                    $('.likedislike').css("display", "none");
-                    $('.price').css("display", "none");
-                    fetchFromDatabase("ping-search", parseInt($.trim(data)), (pageNo - 1) * 16);
+        var url = window.location.href.toString();
+        if (url.indexOf("Details") !== -1) {
+            url = url.substring(0, url.indexOf("Details")) + "Homepage#" + "search=" + val + "_page:" + page;
+            window.location.href = url;
+        } else {
+            window.location.hash = "search=" + val + "_page:" + page;
+            $('.page-count').html(page + "");
+            $('.filter-result').html("Search Results : ");
+            $.ajax({
+                type: 'POST',
+                url: "/Smartphone.search.review/SearchResult",
+                data: {request: "ping", value: val},
+                success: function (data) {
+                    console.log($.trim(data));
+                    if (parseInt($.trim(data)) > 0) {
+                        var pageNo = page;
+                        var total_data = 16;
+                        if (parseInt($.trim(data)) < total_data)
+                            total_data = parseInt($.trim(data));
+                        $('.filter-result').css("visibility", "visible");
+                        $('.filter-result-count').css("visibility", "visible");
+                        $('.filter-result-count').html($.trim(data));
+                        $('.loader-mask .loading').html("Fetching Data... 0/" + total_data);
+                        $('.img-container').css("display", "none");
+                        $('.title').css("display", "none");
+                        $('.likedislike').css("display", "none");
+                        $('.price').css("display", "none");
+                        fetchFromDatabase("ping-search", parseInt($.trim(data)), (pageNo - 1) * 16);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }

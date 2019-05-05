@@ -27,6 +27,7 @@
         <script>
             <%@ include file="./js/script-init.js" %>
             <%@ include file="./js/searchbox.js" %>
+            <%@ include file="./js/like-dislike.js" %>
             <%@ include file="./js/comments.js" %>
         </script>
     </head>
@@ -102,18 +103,27 @@
                             </td>
                         </tr>
                     </table>
-                    <div class="popularity">Popularity 87%</div>
+                    <%
+                        DBDevice db = new DBDevice();
+                        String likes = db.getData("Metadata/" + brand + "/" + model + "/likes").toString();
+                        String dislikes = db.getData("Metadata/" + brand + "/" + model + "/dislikes").toString();
+                        String interaction = "error";
+                        if (!request.getSession().getAttribute("username").equals("null")) {
+                            String usrname = request.getSession().getAttribute("username").toString();
+                            interaction = db.getData("Users/" + usrname.replace(".", "%") + "/like_dislike/" + brand + "%" + Globals.encode4Firebase(model)).toString();
+                        }
+                    %>
                     <div class="title-container row">
                         <div class="like">
-                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                            <div class="likecount">2575</div>
+                            <i class="fa fa-thumbs-up" aria-hidden="true" onclick="click_like(0, '<%=brand + "%" + model%>');"></i>
+                            <div class="like-count"><%=likes%></div>
                         </div>
                         <div class="left-triangle" style="float:left;"></div>
                         <div class="title" data-brand="<%=device.brand%>"><%=device.model%></div>
                         <div class="right-triangle"></div>
                         <div class="dislike">
-                            <i class="fa fa-thumbs-down" aria-hidden="true"></i>
-                            <div class="dislikecount">75</div>
+                            <i class="fa fa-thumbs-down" aria-hidden="true" onclick="click_dislike(0, '<%=brand + "%" + model%>');"></i>
+                            <div class="dislike-count"><%=dislikes%></div>
                         </div>
                     </div>
                     <br>
@@ -143,7 +153,7 @@
                     <div class="comment-container">
                         <textarea class="comment" placeholder="Write a comment..."></textarea>
                         <div class="add-comment" onclick="addcomment(document.querySelector('.comment').value);">Add</div>
-                        
+
                         <!--<span class="commented-by">Someone</span>
                         <div class="talk-bubble tri-right left-top comment-text-container">
                             <div class="talktext">
@@ -156,6 +166,12 @@
         </div>
     </body>
     <script>
+        
+            <%if(interaction.equals("like")){%>
+                $('.like i').css("color","rgb(0, 125, 255)");
+            <%} else if (interaction.equals("dislike")){%>
+                $('.dislike i').css("color","rgb(164, 0, 0)");
+            <%}%>
         //document.querySelector(".left-triangle").style.marginLeft = (document.body.scrollWidth - document.querySelector(".title").offsetWidth - 80)/2 + "px";
         document.querySelector(".like").style.marginLeft = (document.body.scrollWidth - document.querySelector(".title").offsetWidth - 160) / 2 + "px";
         document.querySelector(".popularity").style.width = document.querySelector("table").offsetWidth * 0.87 + "px";
@@ -181,6 +197,6 @@
 
 
         }
-        
+
     </script>
 </html>

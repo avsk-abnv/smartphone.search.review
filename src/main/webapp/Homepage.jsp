@@ -36,6 +36,7 @@
             <%@ include file="./js/script-filters.js" %>
             <%@ include file="./js/homepage-ajax.js" %>
             <%@ include file="./js/like-dislike.js" %>
+            <%@ include file="./js/recommendation.js" %>
         </script>
 
     </head>
@@ -62,16 +63,15 @@
                     <div class="filters column">yoyo</div>
                     <div id="filters"></div>
                 </div>
-                <div class="full-mask"></div>
+                <div class="full-mask" total="null"></div>
                 <div class="popup-login"></div>
                 <div id="main-col" class="column">
                     <div id="compare-body"></div>
                     <div id="main-body" class="column">
                         <div class="sortings row">
                             <div class="sort-by" align="center">Sort By :</div>
-                            <div class="relevance" align="center">Relevance</div>
-                            <div class="popularity" align="center">Popularity</div>
-                            <div class="recommendation" align="center">Recommendations</div>
+                            <div class="relevance" align="center" onclick="relevance();">Relevance</div>
+                            <div class="recommendation" align="center" onclick="recommendation('none');">Recommendations</div>
                             <div class="filter-result">Filter Results : </div>
                             <div class="filter-result-count">000</div>
                             <div class="page-title">Page : </div>
@@ -129,9 +129,9 @@
     </body>
     <script>
         <%@ include file="./js/script.js" %>
-        
+
         <%@ include file="./js/comments.js" %>
-        
+
     </script>
     <noscript>Your browser does not support JavaScript</noscript>
 </html>

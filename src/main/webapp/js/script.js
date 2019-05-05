@@ -51,18 +51,30 @@ function tryApplying_hash(getHash) {
             }
         }, 500);
     } else if (getHash.split("_").length > 1) {
-        var searchval = getHash.split("_")[0].split("=")[1];
-        var page = parseInt(getHash.split("_")[1].split(":")[1]);
+        if (getHash.toString().split("_")[0].indexOf("search") !== -1) {
+            var searchval = getHash.split("_")[0].split("=")[1];
+            var page = parseInt(getHash.split("_")[1].split(":")[1]);
 
-        setTimeout(function () {
-            if ($('#myInput').length === 1) {
-                console.log("hash applied");
-                document.getElementById("myInput").value = searchval.split("%20").join(" ");
-                getSearch_results(page);
-            } else {
-                tryApplying_hash(getHash);
-            }
-        }, 500);
+            setTimeout(function () {
+                if ($('#myInput').length === 1) {
+                    console.log("hash applied");
+                    document.getElementById("myInput").value = searchval.split("%20").join(" ");
+                    getSearch_results(page);
+                } else {
+                    tryApplying_hash(getHash);
+                }
+            }, 500);
+        } else if (getHash.toString().split("_")[0].indexOf("recommendation") !== -1) {
+            var page = parseInt(getHash.split("_")[1].split(":")[1]);
+            setTimeout(function () {
+                if ($('#myInput').length === 1) {
+                    console.log("hash applied");
+                    recommendation("control");
+                } else {
+                    tryApplying_hash(getHash);
+                }
+            }, 500);
+        }
     } else {
         setTimeout(function () {
             if ($('.filter-title-container span').text() !== "Filters Selected") {
@@ -144,6 +156,12 @@ function applyHash(all_filterdata) {
     }
 }
 
+function removeall() {
+    $('.img-container').css("display", "none");
+    $('.title').css("display", "none");
+    $('.likedislike').css("display", "none");
+    $('.price').css("display", "none");
+}
 function nextPage() {
     var currPage;
     if (window.location.hash === "")
@@ -156,6 +174,7 @@ function nextPage() {
         if (total_count - pageNo * 16 > 0 && $('.filter-title span').text() === "Filters Selected") {
             window.location.hash = window.location.hash.toString().split("-")[0] + "-page:" + (pageNo + 1);
             var no_data = total_count - pageNo * 16;
+            removeall();
             $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
             $('.img-container').css("display", "none");
             $('.title').css("display", "none");
@@ -167,25 +186,47 @@ function nextPage() {
             fetchFromDatabase("ping", no_data, pageNo * 16);
         }
     } else if (window.location.hash.toString().split("_").length > 1) {
-        currPage = window.location.hash.toString().split("_")[1];
-        var pageNo = parseInt(currPage.split(":")[1]);
+        if (window.location.hash.toString().split("_")[0].indexOf("search") !== -1) {
+            currPage = window.location.hash.toString().split("_")[1];
+            var pageNo = parseInt(currPage.split(":")[1]);
 
-        var total_count = parseInt($(".filter-result-count").text().toString());
-        if (total_count - pageNo * 16 > 0 && $('.filter-result').text() === "Search Results : ") {
-            window.location.hash = window.location.hash.toString().split("_")[0] + "_page:" + (pageNo + 1);
-            var no_data = total_count - pageNo * 16;
-            $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
-            $('.img-container').css("display", "none");
-            $('.title').css("display", "none");
-            $('.likedislike').css("display", "none");
-            $('.price').css("display", "none");
-            $('.loader-mask').css("display", "block");
-            $('.page-count').html((pageNo + 1) + "");
-            fetchFromDatabase("ping-search", no_data, pageNo * 16);
+            var total_count = parseInt($(".filter-result-count").text().toString());
+            if (total_count - pageNo * 16 > 0 && $('.filter-result').text() === "Search Results : ") {
+                window.location.hash = window.location.hash.toString().split("_")[0] + "_page:" + (pageNo + 1);
+                var no_data = total_count - pageNo * 16;
+                removeall();
+                $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
+                $('.img-container').css("display", "none");
+                $('.title').css("display", "none");
+                $('.likedislike').css("display", "none");
+                $('.price').css("display", "none");
+                $('.loader-mask').css("display", "block");
+                $('.page-count').html((pageNo + 1) + "");
+                fetchFromDatabase("ping-search", no_data, pageNo * 16);
+            }
+        } else if (window.location.hash.toString().split("_")[0].indexOf("recommendation") !== -1) {
+            currPage = window.location.hash.toString().split("_")[1];
+            var pageNo = parseInt(currPage.split(":")[1]);
+
+            var total_count = parseInt($(".full-mask").attr('total'));
+            if (total_count - pageNo * 16 > 0) {
+                window.location.hash = window.location.hash.toString().split("_")[0] + "_page:" + (pageNo + 1);
+                var no_data = total_count - pageNo * 16;
+                removeall();
+                $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
+                $('.img-container').css("display", "none");
+                $('.title').css("display", "none");
+                $('.likedislike').css("display", "none");
+                $('.price').css("display", "none");
+                $('.loader-mask').css("display", "block");
+                $('.page-count').html((pageNo + 1) + "");
+                fetchFromDatabase("ping-recommendation", no_data, pageNo * 16);
+            }
         }
     } else if (window.location.hash.toString().split("-").length === 1 && window.location.hash.toString().split("_").length === 1) {
         var pageNo = parseInt(window.location.hash.toString().split(":")[1]);
         if (pageNo * 16 < 5245)
+            removeall();
             getHomepageData(pageNo + 1);
     }
 }
@@ -202,6 +243,7 @@ function prevPage() {
         if (pageNo > 1 && $('.filter-title span').text() === "Filters Selected") {
             window.location.hash = window.location.hash.toString().split("-")[0] + "-page:" + (pageNo - 1);
             var no_data = total_count - (pageNo - 2) * 16;
+            removeall();
             $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
             $('.img-container').css("display", "none");
             $('.title').css("display", "none");
@@ -212,25 +254,47 @@ function prevPage() {
             fetchFromDatabase("ping", no_data, (pageNo - 2) * 16);
         }
     } else if (window.location.hash.toString().split("_").length > 1) {
-        currPage = window.location.hash.toString().split("_")[1];
-        var pageNo = parseInt(currPage.split(":")[1]);
+        if (window.location.hash.toString().split("_")[0].indexOf("search") !== -1) {
+            currPage = window.location.hash.toString().split("_")[1];
+            var pageNo = parseInt(currPage.split(":")[1]);
 
-        var total_count = parseInt($(".filter-result-count").text().toString());
-        if (pageNo > 1 && $('.filter-result').text() === "Search Results : ") {
-            window.location.hash = window.location.hash.toString().split("_")[0] + "_page:" + (pageNo - 1);
-            var no_data = total_count - (pageNo - 2) * 16;
-            $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
-            $('.img-container').css("display", "none");
-            $('.title').css("display", "none");
-            $('.likedislike').css("display", "none");
-            $('.price').css("display", "none");
-            $('.loader-mask').css("display", "block");
-            $('.page-count').html((pageNo - 1) + "");
-            fetchFromDatabase("ping-search", no_data, (pageNo - 2) * 16);
+            var total_count = parseInt($(".filter-result-count").text().toString());
+            if (pageNo > 1 && $('.filter-result').text() === "Search Results : ") {
+                window.location.hash = window.location.hash.toString().split("_")[0] + "_page:" + (pageNo - 1);
+                var no_data = total_count - (pageNo - 2) * 16;
+                removeall();
+                $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
+                $('.img-container').css("display", "none");
+                $('.title').css("display", "none");
+                $('.likedislike').css("display", "none");
+                $('.price').css("display", "none");
+                $('.loader-mask').css("display", "block");
+                $('.page-count').html((pageNo - 1) + "");
+                fetchFromDatabase("ping-search", no_data, (pageNo - 2) * 16);
+            }
+        } else if (window.location.hash.toString().split("_")[0].indexOf("recommendation") !== -1) {
+            currPage = window.location.hash.toString().split("_")[1];
+            var pageNo = parseInt(currPage.split(":")[1]);
+
+            var total_count = parseInt($(".full-mask").attr('total'));
+            if (pageNo > 1) {
+                window.location.hash = window.location.hash.toString().split("_")[0] + "_page:" + (pageNo - 1);
+                var no_data = total_count - (pageNo - 2) * 16;
+                removeall();
+                $('.loader-mask .loading').html("Fetching Data... 0/" + no_data);
+                $('.img-container').css("display", "none");
+                $('.title').css("display", "none");
+                $('.likedislike').css("display", "none");
+                $('.price').css("display", "none");
+                $('.loader-mask').css("display", "block");
+                $('.page-count').html((pageNo - 1) + "");
+                fetchFromDatabase("ping-recommendation", no_data, (pageNo - 2) * 16);
+            }
         }
     } else if (window.location.hash.toString().split("-").length === 1 && window.location.hash.toString().split("_").length === 1) {
         var pageNo = parseInt(window.location.hash.toString().split(":")[1]);
         if (pageNo > 1)
+            removeall();
             getHomepageData(pageNo - 1);
     }
 }
