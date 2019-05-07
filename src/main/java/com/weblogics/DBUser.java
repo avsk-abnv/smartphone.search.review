@@ -3,57 +3,55 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.weblogics;
 
 import com.accessObjects.User;
 import java.io.IOException;
 
 /**
- * 
+ *
  * @author Abhishek Abhinav
  */
-public class DBUser implements DBUserINTF{
+public class DBUser implements DBUserINTF {
+
     @Override
-    public String registerUser(User user,String email) throws IOException {
+    public String registerUser(User user, String email) throws IOException {
         DBDevice db = new DBDevice();
-        
-        try
-        {
-            String data=db.getData("Users/"+email.replace(".","%")).toString();
+
+        String data = db.getData("Users/" + email.replace(".", "%")).toString();
+        if (data.equals("error")) {
+            email = email.replace(".", "%");
+            boolean success = db.setData("Users/" + email.replace(".", "%"), user);
+            if (success) {
+                return "Sucessfully registered";
+            } else {
+                return "Something went wrong!";
+            }
+        } else {
             return "Email id already exists!";
         }
-        catch(Exception e)
-        {   email = email.replace(".","%");
-            boolean success = db.setData("Users/"+email.replace(".","%"), user);
-            if(success)
-                return "Sucessfully registered";
-            else
-                return "Something went wrong!";
-        }
+
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String authenticateUser(String username, String password) throws IOException{
+    public String authenticateUser(String username, String password) throws IOException {
         DBDevice db = new DBDevice();
-        try
-        {   username = username.replace(".", "%");
-            if(db.getData("Users/"+username+"/password").toString().equals(password))
-            {
+        try {
+            username = username.replace(".", "%");
+            String pwrd = db.getData("Users/" + username + "/password").toString();
+            if (pwrd.equals(password)) {
                 return "Authentication Successful";
+            } else if (pwrd.equals("error")){
+                return "Email id does not exist!";
+            } else {
+                return "Wrong Password!";
             }
-            else
-            {
-                return "Wrong password";
-            }
-        }
-        catch(Exception e)
-        {
-            return "Email id does not exist!";
+        } catch (Exception e) {
+            return "Something went wrong!";
             //return e.toString();
         }
-        
+
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
